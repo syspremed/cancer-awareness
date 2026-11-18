@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="both">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screening & Tests | ஸ்கிரீனிங் — Cancer Awareness</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .screening-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: var(--sp-6);
+    }
+    .screening-header {
+      display: flex; align-items: center; gap: var(--sp-5);
+      padding: var(--sp-6);
+      border-bottom: 1px solid var(--clr-border);
+      background: var(--clr-surface-raised);
+    }
+    .screening-icon { font-size: 2.5rem; }
+    .eligibility-badge {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      border-radius: var(--radius-full);
+      padding: var(--sp-2) var(--sp-4);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-active { background: #E8F5E9; color: #1B5E20; }
+    .badge-ask { background: #E3F2FD; color: #0D47A1; }
+    .screening-body { padding: var(--sp-6); }
+    .journey-steps { display: flex; flex-direction: column; gap: 0; margin: var(--sp-6) 0; }
+    .journey-step { display: flex; gap: var(--sp-4); position: relative; padding-bottom: var(--sp-6); }
+    .journey-step:last-child { padding-bottom: 0; }
+    .step-num {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      background: var(--clr-primary); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; flex-shrink: 0; font-size: var(--text-sm);
+      position: relative; z-index: 1;
+    }
+    .journey-step:not(:last-child)::before {
+      content: ''; position: absolute; left: 1.25rem; top: 2.5rem; bottom: 0;
+      width: 2px; background: var(--clr-border);
+    }
+  </style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="prototype-notice">🔒 PRIVATE PROTOTYPE — Awaiting clinical review</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">
+      <div class="logo-icon" aria-hidden="true">CA</div>
+      <div>
+        <div class="logo-text-en">Cancer Awareness</div>
+        <div class="logo-text-ta">புற்றுநோய் விழிப்புணர்வு</div>
+      </div>
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="understand.html" class="nav-link">Understand cancer</a>
+      <a href="body-map.html" class="nav-link">Body map</a>
+      <a href="symptoms.html" class="nav-link">Symptoms</a>
+      <a href="risk.html" class="nav-link">Reduce risk</a>
+      <a href="screening.html" class="nav-link active">Screening</a>
+      <a href="ask.html" class="nav-link">Ask a question</a>
+    </nav>
+    <div class="header-controls">
+      <div class="lang-switcher" role="group" aria-label="Language display mode">
+        <button class="lang-btn" data-lang-btn="en">EN</button>
+        <button class="lang-btn active" data-lang-btn="both">EN+தமிழ்</button>
+        <button class="lang-btn" data-lang-btn="ta">தமிழ்</button>
+      </div>
+      <button class="nav-toggle btn btn-ghost btn-sm" id="nav-toggle" aria-expanded="false" aria-controls="main-nav">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <div style="background:linear-gradient(135deg,#004D40,#00695C);color:white;padding:var(--sp-10) 0">
+    <div class="container">
+      <h1 style="color:white;font-size:clamp(var(--text-2xl),4vw,var(--text-3xl));margin-bottom:var(--sp-3)">
+        <span class="en-only">Screening, detection & tests</span>
+        <span class="ta-only ta">ஸ்கிரீனிங், கண்டறிதல் மற்றும் சோதனைகள்</span>
+      </h1>
+      <div class="bilingual-pair" style="max-width:44rem">
+        <p class="bilingual-en">Screening looks for early signs of cancer before you have any symptoms. This page explains the NHS screening programmes available in England, what tests are used, and what results mean.</p>
+        <p class="bilingual-ta">ஸ்கிரீனிங் அறிகுறிகள் வருவதற்கு முன்பே புற்றுநோயின் ஆரம்ப அறிகுறிகளை தேடுகிறது. இந்த பக்கம் இங்கிலாந்தில் கிடைக்கும் NHS ஸ்கிரீனிங் திட்டங்களை விளக்குகிறது.</p>
+      </div>
+      <div class="info-box" style="background:rgba(255,255,255,0.15);border:none;margin-top:var(--sp-5);max-width:44rem">
+        <p class="text-sm en-only">📌 This page shows screening information for <strong>England only</strong>. Eligibility and programmes differ in Scotland, Wales, and Northern Ireland. If you live outside England, contact your GP or national health service for local information.</p>
+        <p class="text-sm ta-only ta" style="font-family:var(--font-ta)">📌 இந்த பக்கம் <strong>இங்கிலாந்து மட்டும்</strong> ஸ்கிரீனிங் தகவலை காட்டுகிறது.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:var(--sp-10)">
+
+    <!-- SCREENING vs SYMPTOMS -->
+    <section style="margin-bottom:var(--sp-12)">
+      <h2 class="en-only" style="margin-bottom:var(--sp-5)">Screening is not the same as having symptoms</h2>
+      <h2 class="ta-only ta" style="margin-bottom:var(--sp-5);font-family:var(--font-ta)">ஸ்கிரீனிங் அறிகுறிகள் வருவதற்கு சமம் அல்ல</h2>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:var(--sp-5)">
+        <div class="card" style="border-left:4px solid var(--clr-primary)">
+          <h3 class="en-only" style="font-size:var(--text-lg)">🔍 Screening</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-base);font-family:var(--font-ta)">🔍 ஸ்கிரீனிங்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">Done in people <strong>without symptoms</strong>, at a certain age or risk level. Aims to detect cancer or pre-cancerous changes early. A normal result does not rule out every cancer.</p>
+            <p class="bilingual-ta text-sm"><strong>அறிகுறிகள் இல்லாதவர்களுக்கு</strong> ஒரு குறிப்பிட்ட வயது அல்லது ஆபத்து மட்டத்தில் செய்யப்படுகிறது.</p>
+          </div>
+        </div>
+        <div class="card" style="border-left:4px solid var(--clr-accent)">
+          <h3 class="en-only" style="font-size:var(--text-lg)">⚠️ Symptoms</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-base);font-family:var(--font-ta)">⚠️ அறிகுறிகள்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">If you have <strong>any concerning symptoms</strong>, see your GP — do not wait for a screening invitation. Symptoms should be assessed regardless of your age, screening history, or eligibility.</p>
+            <p class="bilingual-ta text-sm"><strong>கவலைப்படும் அறிகுறிகள்</strong> இருந்தால், ஸ்கிரீனிங் அழைப்பிற்கு காத்திருக்காமல் GP யை சந்தியுங்கள்.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREENING PROGRAMMES -->
+    <h2 class="en-only" style="margin-bottom:var(--sp-6)">NHS screening programmes in England</h2>
+    <h2 class="ta-only ta" style="margin-bottom:var(--sp-6);font-family:var(--font-ta)">இங்கிலாந்தில் NHS ஸ்கிரீனிங் திட்டங்கள்</h2>
+
+    <!-- BOWEL -->
+    <div class="screening-card">
+      <div class="screening-header">
+        <div class="screening-icon" aria-hidden="true">🫁</div>
+        <div style="flex:1">
+          <h3 class="en-only" style="font-size:var(--text-xl)">Bowel cancer screening</h3>
+          <h3 class="ta-only ta" style="font-family:var(--font-ta);font-size:var(--text-lg)">குடல் புற்றுநோய் ஸ்கிரீனிங்</h3>
+        </div>
+        <div class="eligibility-badge badge-active">Ages 60–74</div>
+      </div>
+      <div class="screening-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p><strong>Who:</strong> Everyone aged 60–74 registered with a GP in England is automatically sent a home test kit every 2 years.</p>
+            <p style="margin-top:var(--sp-3)"><strong>What (FIT test):</strong> A simple home test where you collect a tiny stool sample using a stick and return it in a pre-paid envelope. It tests for tiny amounts of blood in the stool that cannot be seen with the naked eye.</p>
+            <p style="margin-top:var(--sp-3)"><strong>If the result is positive:</strong> You are invited for a colonoscopy — a camera examination of the inside of the bowel. A positive result does not mean you have cancer; most people with a positive FIT test do not have cancer.</p>
+            <p style="margin-top:var(--sp-3)"><strong>If you are under 60 or over 74 with symptoms:</strong> See your GP — do not wait.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p><strong>யார்:</strong> 60–74 வயது இங்கிலாந்தில் GP யில் பதிவு செய்த அனைவரும் ஒவ்வொரு 2 ஆண்டுகளுக்கும் வீட்டிற்கே சோதனை கிட் அனுப்பப்படும்.</p>
+            <p style="margin-top:var(--sp-3)"><strong>எப்படி (FIT சோதனை):</strong> ஒரு சிறிய மல மாதிரியை சேகரித்து முன்கூட்டியே பணம் செலுத்திய உறையில் திருப்பி அனுப்பவும்.</p>
+            <p style="margin-top:var(--sp-3)"><strong>முடிவு நேர்மறையாக இருந்தால்:</strong> கோலோனோஸ்கோபிக்கு அழைக்கப்படுவீர்கள். நேர்மறை முடிவு என்பது புற்றுநோய் இருக்கிறது என்று அர்த்தமல்ல.</p>
+          </div>
+        </div>
+        <div class="source-list" style="margin-top:var(--sp-5)">
+          <p class="source-item">📄 NHS: Bowel cancer screening — <a href="https://www.nhs.uk/conditions/bowel-cancer-screening/" target="_blank">nhs.uk</a> | Reviewed and verified against NHS source, Oct 2024</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BREAST -->
+    <div class="screening-card">
+      <div class="screening-header">
+        <div class="screening-icon" aria-hidden="true">🩷</div>
+        <div style="flex:1">
+          <h3 class="en-only" style="font-size:var(--text-xl)">Breast cancer screening</h3>
+          <h3 class="ta-only ta" style="font-family:var(--font-ta);font-size:var(--text-lg)">மார்பக புற்றுநோய் ஸ்கிரீனிங்</h3>
+        </div>
+        <div class="eligibility-badge badge-active">Women 50–70</div>
+      </div>
+      <div class="screening-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p><strong>Who:</strong> Women aged 50–70 registered with a GP are routinely invited for a mammogram every 3 years. Some areas invite women up to 73.</p>
+            <p style="margin-top:var(--sp-3)"><strong>What (mammogram):</strong> An X-ray of the breast taken from two angles. It can detect cancers too small to feel. The test is quick but may be a little uncomfortable.</p>
+            <p style="margin-top:var(--sp-3)"><strong>If you are outside the invited age and have a concern:</strong> See your GP — you can request referral for assessment.</p>
+            <p style="margin-top:var(--sp-3)"><strong>Important:</strong> Mammograms do not detect every cancer. Continue to check your breasts and report any change to your GP.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p><strong>யார்:</strong> 50–70 வயது பெண்கள் ஒவ்வொரு 3 ஆண்டுகளுக்கும் மேமோகிராமுக்கு அழைக்கப்படுவார்கள்.</p>
+            <p style="margin-top:var(--sp-3)"><strong>எப்படி (மேமோகிராம்):</strong> மார்பகத்தின் X-ray. உணர முடியாத சிறிய புற்றுநோய்களை கண்டுபிடிக்கலாம்.</p>
+            <p style="margin-top:var(--sp-3)"><strong>முக்கியம்:</strong> மேமோகிராம் எல்லா புற்றுநோயையும் கண்டுபிடிக்காது. மார்பகத்தை தொடர்ந்து பரிசோதித்து மாற்றம் இருந்தால் GP யிடம் சொல்லுங்கள்.</p>
+          </div>
+        </div>
+        <div class="source-list" style="margin-top:var(--sp-5)">
+          <p class="source-item">📄 NHS: Breast cancer screening — <a href="https://www.nhs.uk/conditions/breast-cancer-screening/" target="_blank">nhs.uk</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERVICAL -->
+    <div class="screening-card">
+      <div class="screening-header">
+        <div class="screening-icon" aria-hidden="true">🫀</div>
+        <div style="flex:1">
+          <h3 class="en-only" style="font-size:var(--text-xl)">Cervical screening (smear test)</h3>
+          <h3 class="ta-only ta" style="font-family:var(--font-ta);font-size:var(--text-lg)">கர்ப்பப்பை வாய் ஸ்கிரீனிங் (ஸ்மியர் சோதனை)</h3>
+        </div>
+        <div class="eligibility-badge badge-active">Women 25–64</div>
+      </div>
+      <div class="screening-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p><strong>Who:</strong> Women aged 25–49 every 3 years; 50–64 every 5 years. After 65, only screened if recent results were abnormal.</p>
+            <p style="margin-top:var(--sp-3)"><strong>What:</strong> A small sample of cells is taken from the cervix using a soft brush. The sample is now tested for HPV (human papillomavirus) first — the virus that causes most cervical cancers. If HPV is found, the cells are checked for changes.</p>
+            <p style="margin-top:var(--sp-3)"><strong>Abnormal result:</strong> This does not mean cancer. Most abnormal results show cell changes that can be monitored or treated before cancer develops.</p>
+            <p style="margin-top:var(--sp-3)"><strong>HPV vaccination:</strong> Offered to all 11–13 year olds in the UK. Vaccination and screening work together.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p><strong>யார்:</strong> 25–49 வயது பெண்கள் ஒவ்வொரு 3 ஆண்டுகளுக்கும்; 50–64 வயது ஒவ்வொரு 5 ஆண்டுகளுக்கும்.</p>
+            <p style="margin-top:var(--sp-3)"><strong>எப்படி:</strong> கர்ப்பப்பை வாயிலிருந்து மென்மையான தூரிகை மூலம் செல் மாதிரி எடுக்கப்படும். இப்போது HPV சோதனை முதலில் செய்யப்படுகிறது.</p>
+            <p style="margin-top:var(--sp-3)"><strong>அசாதாரண முடிவு:</strong> இது புற்றுநோய் என்று அர்த்தமல்ல. பெரும்பாலான அசாதாரண முடிவுகள் கண்காணிக்கப்படலாம் அல்லது சிகிச்சை செய்யப்படலாம்.</p>
+          </div>
+        </div>
+        <div class="source-list" style="margin-top:var(--sp-5)">
+          <p class="source-item">📄 NHS: Cervical screening — <a href="https://www.nhs.uk/conditions/cervical-screening/" target="_blank">nhs.uk</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LUNG -->
+    <div class="screening-card">
+      <div class="screening-header">
+        <div class="screening-icon" aria-hidden="true">🫁</div>
+        <div style="flex:1">
+          <h3 class="en-only" style="font-size:var(--text-xl)">Lung cancer screening (targeted)</h3>
+          <h3 class="ta-only ta" style="font-family:var(--font-ta);font-size:var(--text-lg)">நுரையீரல் புற்றுநோய் ஸ்கிரீனிங்</h3>
+        </div>
+        <div class="eligibility-badge badge-ask">Ask your GP</div>
+      </div>
+      <div class="screening-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p>An NHS lung cancer screening programme (Targeted Lung Health Check / TLHC) is being rolled out across England for people aged 55–74 who have smoked. It uses a low-dose CT scan. Not yet available everywhere — ask your GP whether it has reached your area.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p>NHS நுரையீரல் ஸ்கிரீனிங் திட்டம் (TLHC) 55–74 வயது புகைத்தவர்களுக்கு இங்கிலாந்தில் பரவி வருகிறது. குறைந்த அளவு CT ஸ்கேன் பயன்படுத்துகிறது. எல்லா இடங்களிலும் கிடைக்கவில்லை — GP யிடம் கேளுங்கள்.</p>
+          </div>
+        </div>
+        <div class="source-list" style="margin-top:var(--sp-5)">
+          <p class="source-item">📄 NHS England: Targeted Lung Health Checks | Cancer Research UK: Lung cancer screening</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIAGNOSTIC TESTS -->
+    <section style="margin-top:var(--sp-12)" aria-labelledby="tests-heading">
+      <h2 id="tests-heading" class="en-only" style="margin-bottom:var(--sp-6)">What tests might a doctor use?</h2>
+      <h2 class="ta-only ta" style="margin-bottom:var(--sp-6);font-family:var(--font-ta)">மருத்துவர் எந்த சோதனைகளை பயன்படுத்துவார்?</h2>
+
+      <div style="display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fill,minmax(16rem,1fr))">
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base)">🩸 Blood tests</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-sm);font-family:var(--font-ta)">🩸 இரத்த சோதனைகள்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">Can check blood cell counts, organ function, and some tumour markers. No single blood test can reliably detect all cancers.</p>
+            <p class="bilingual-ta text-sm">ரத்த செல் எண்ணிக்கை மற்றும் சில குறியீடுகளை சோதிக்கலாம். ஒரே ஒரு இரத்த சோதனை அனைத்து புற்றுநோய்களை நம்பகமான முறையில் கண்டுபிடிக்காது.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base)">📷 Imaging (scans)</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-sm);font-family:var(--font-ta)">📷 இமேஜிங் (ஸ்கேன்)</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">X-rays, ultrasound, CT, MRI, and PET scans are used to look inside the body. Different scans are used for different purposes.</p>
+            <p class="bilingual-ta text-sm">X-ray, அல்ட்ராசவுண்ட், CT, MRI மற்றும் PET ஸ்கேன் உடலின் உள்பகுதியை பார்க்க பயன்படுத்தப்படுகின்றன.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base)">🔬 Biopsy</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-sm);font-family:var(--font-ta)">🔬 பயாப்ஸி</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">A small sample of tissue is removed and examined under a microscope. Usually the most reliable way to confirm whether cancer is present.</p>
+            <p class="bilingual-ta text-sm">ஒரு சிறிய திசு மாதிரி எடுக்கப்பட்டு நுண்ணோக்கியின் கீழ் ஆய்வு செய்யப்படுகிறது. புற்றுநோய் உள்ளதா என்று உறுதிப்படுத்த இது வழக்கமாக மிகவும் நம்பகமான வழி.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base)">🩺 Endoscopy</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-sm);font-family:var(--font-ta)">🩺 எண்டோஸ்கோபி</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">A flexible tube with a camera is passed into the body (e.g. colonoscopy for the bowel, gastroscopy for the stomach). Allows direct inspection and, if needed, biopsy.</p>
+            <p class="bilingual-ta text-sm">ஒரு நெகிழ்வான குழாய் உடலுக்குள் செலுத்தப்படுகிறது (குடலுக்கு கோலோனோஸ்கோபி, வயிற்றுக்கு கேஸ்ட்ரோஸ்கோபி).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFERRAL SECTION -->
+    <section style="margin-top:var(--sp-12)">
+      <h2 class="en-only" style="margin-bottom:var(--sp-5)">Understanding a cancer referral</h2>
+      <h2 class="ta-only ta" style="margin-bottom:var(--sp-5);font-family:var(--font-ta)">புற்றுநோய் பரிந்துரையை புரிந்துகொள்வது</h2>
+      <div class="bilingual-pair" style="margin-bottom:var(--sp-5)">
+        <p class="bilingual-en">If your GP thinks your symptoms need specialist assessment, they may refer you on an "urgent suspected cancer" (two-week wait / 2WW) pathway. This means you should be seen by a specialist within 2 weeks. <strong>Being referred does not mean you have cancer</strong> — the purpose is to investigate and either confirm or rule out a diagnosis promptly.</p>
+        <p class="bilingual-ta">உங்கள் GP உங்கள் அறிகுறிகளுக்கு நிபுணர் மதிப்பாய்வு தேவை என்று நினைத்தால், "அவசர சந்தேக புற்றுநோய்" (2 வார காத்திருப்பு) வழியில் பரிந்துரை செய்யலாம். <strong>பரிந்துரைக்கப்பட்டால் புற்றுநோய் இருக்கிறது என்று அர்த்தமில்லை.</strong></p>
+      </div>
+    </section>
+
+    <div class="review-notice" style="margin-top:var(--sp-10)">⚠️ Screening information is for England only. Tamil content awaiting bilingual clinical review — தமிழ் உள்ளடக்கம் மருத்துவ மதிப்பாய்வு நிலுவையில்</div>
+    <div class="source-list" style="margin-top:var(--sp-4)">
+      <p class="source-item">📄 NHS England: Cancer Screening Programmes | NHS: Bowel, Breast, Cervical Screening | Cancer Research UK | NICE: Suspected cancer recognition and referral (NG12)</p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom"><div>Cancer Awareness Prototype · v0.1</div></div>
+    <div class="footer-disclaimer">Screening information applies to England only. For Scotland, Wales, or Northern Ireland, please consult your local NHS service. If you have symptoms, see your GP regardless of screening history.</div>
+  </div>
+</footer>
+<script src="../js/app.js"></script>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-bottom-nav" aria-label="Quick navigation">
+  <div class="mobile-bottom-nav-inner">
+    <a href="../index.html" class="mobile-nav-item" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="body-map.html" class="mobile-nav-item" aria-label="Body map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M12 9v6m-4 3h8"/></svg>
+      <span>Body</span>
+    </a>
+    <a href="symptoms.html" class="mobile-nav-item" aria-label="Symptoms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg>
+      <span>Symptoms</span>
+    </a>
+    <a href="ask.html" class="mobile-nav-item" aria-label="Ask">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Ask</span>
+    </a>
+  </div>
+</nav>
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="both" data-text-size="normal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review Dashboard — Cancer Awareness Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --clr-primary:#0D6B6E;--clr-primary-dark:#085557;--clr-accent:#E07B39;
+  --clr-bg:#F8F9FA;--clr-surface:#FFFFFF;--clr-border:#DEE2E6;
+  --clr-text:#1A1A1A;--clr-muted:#6B7280;
+  --clr-ok:#1A7F4E;--clr-warn:#B45309;--clr-err:#B91C1C;--clr-info:#1D4ED8;
+  --clr-ok-bg:#ECFDF5;--clr-warn-bg:#FFFBEB;--clr-err-bg:#FEF2F2;--clr-info-bg:#EFF6FF;
+  --font-en:'Inter',sans-serif;--font-ta:'Noto Sans Tamil',sans-serif;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-en);background:var(--clr-bg);color:var(--clr-text);font-size:1rem;line-height:1.6}
+.prototype-banner{background:#1D4ED8;color:#fff;text-align:center;padding:.5rem 1rem;font-size:.8rem;font-weight:600;letter-spacing:.03em}
+header{background:var(--clr-primary);color:#fff;padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+header h1{font-size:1.3rem;font-weight:700}
+header p{font-size:.85rem;opacity:.85;margin-top:.15rem}
+.header-badge{background:rgba(255,255,255,.18);border-radius:4px;padding:.2rem .6rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+main{max-width:1400px;margin:0 auto;padding:1.5rem}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--clr-surface);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);border-left:4px solid var(--clr-primary)}
+.stat-card.warn{border-left-color:var(--clr-accent)}
+.stat-card.ok{border-left-color:var(--clr-ok)}
+.stat-card.err{border-left-color:var(--clr-err)}
+.stat-num{font-size:2rem;font-weight:700;line-height:1}
+.stat-label{font-size:.8rem;color:var(--clr-muted);margin-top:.3rem}
+.section{background:var(--clr-surface);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:2rem;overflow:hidden}
+.section-header{background:var(--clr-primary);color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.section-header h2{font-size:1rem;font-weight:600}
+.section-header p{font-size:.8rem;opacity:.8}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{background:#F3F4F6;text-align:left;padding:.75rem 1rem;font-weight:600;color:var(--clr-primary);white-space:nowrap;border-bottom:2px solid var(--clr-border)}
+td{padding:.7rem 1rem;border-bottom:1px solid var(--clr-border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F9FAFB}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:999px;font-size:.72rem;font-weight:600;white-space:nowrap}
+.badge-ok{background:var(--clr-ok-bg);color:var(--clr-ok)}
+.badge-warn{background:var(--clr-warn-bg);color:var(--clr-warn)}
+.badge-err{background:var(--clr-err-bg);color:var(--clr-err)}
+.badge-info{background:var(--clr-info-bg);color:var(--clr-info)}
+.badge-muted{background:#F3F4F6;color:var(--clr-muted)}
+.content-id{font-family:monospace;font-size:.78rem;color:var(--clr-muted);display:block}
+.content-title{font-weight:500}
+.url-link{color:var(--clr-primary);text-decoration:none;word-break:break-all;font-size:.78rem}
+.url-link:hover{text-decoration:underline}
+.filter-row{padding:1rem 1.5rem;border-bottom:1px solid var(--clr-border);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.filter-row label{font-size:.82rem;font-weight:500;color:var(--clr-muted)}
+select,input[type=text]{font:inherit;font-size:.82rem;border:1px solid var(--clr-border);border-radius:6px;padding:.35rem .6rem;background:#fff;color:var(--clr-text)}
+select:focus,input:focus{outline:2px solid var(--clr-primary);outline-offset:2px}
+.notice-box{background:var(--clr-warn-bg);border:1px solid #FCD34D;border-radius:var(--radius);padding:1rem 1.5rem;margin:1.5rem;font-size:.85rem;color:var(--clr-warn)}
+.notice-box strong{display:block;margin-bottom:.3rem}
+.sources-legend{display:flex;gap:1rem;flex-wrap:wrap;padding:.75rem 1.5rem;border-top:1px solid var(--clr-border);font-size:.78rem;color:var(--clr-muted)}
+.sources-legend span{display:flex;align-items:center;gap:.35rem}
+.note-cell{max-width:220px;font-size:.78rem;color:var(--clr-muted);line-height:1.4}
+@media(max-width:768px){main{padding:1rem}th,td{padding:.5rem .75rem}header{padding:1rem}.stats-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="prototype-banner">🔒 PROTOTYPE — NOT FOR PUBLIC RELEASE — Internal review use only</div>
+
+<header>
+  <div>
+    <h1>Cancer Awareness — Editorial Review Dashboard</h1>
+    <p>Track source evidence, content status, review outcomes, and publication readiness</p>
+  </div>
+  <span class="header-badge">v0.1.0 · 2024-11-15</span>
+  <span class="header-badge">England (primary)</span>
+</header>
+
+<main>
+
+<!-- Stats overview -->
+<div class="stats-row" id="stats-row">
+  <div class="stat-card"><div class="stat-num" id="stat-pages">0</div><div class="stat-label">Pages built</div></div>
+  <div class="stat-card ok"><div class="stat-num" id="stat-src-ok">0</div><div class="stat-label">Sources verified</div></div>
+  <div class="stat-card warn"><div class="stat-num" id="stat-clinical">0</div><div class="stat-label">Awaiting clinical review</div></div>
+  <div class="stat-card warn"><div class="stat-num" id="stat-tamil">0</div><div class="stat-label">Awaiting Tamil review</div></div>
+  <div class="stat-card err"><div class="stat-num" id="stat-approved">0</div><div class="stat-label">Institutionally approved</div></div>
+  <div class="stat-card"><div class="stat-num" id="stat-published">0</div><div class="stat-label">Published</div></div>
+</div>
+
+<div class="notice-box">
+  <strong>⚠️ Important — public release criteria</strong>
+  All content requires: (1) clinical accuracy review by an appropriate clinician, (2) Tamil language review by a bilingual reviewer, (3) approval from Prof Anguraj Sadanandam before public release. No content marked "Awaiting review" may be released publicly. This dashboard is for internal prototype tracking only.
+</div>
+
+<!-- Pages & Content -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <h2>📄 Pages &amp; Content Modules</h2>
+      <p>English content, Tamil adaptation, and review status per page</p>
+    </div>
+  </div>
+  <div class="filter-row">
+    <label>Filter by status:</label>
+    <select id="filter-status" onchange="filterTable('content-table','filter-status',3)">
+      <option value="">All statuses</option>
+      <option value="Awaiting">Awaiting review</option>
+      <option value="Approved">Approved</option>
+      <option value="Draft">Draft</option>
+    </select>
+    <label>Search:</label>
+    <input type="text" id="filter-search" placeholder="Search page title…" oninput="searchTable('content-table','filter-search',1)">
+  </div>
+  <div class="table-wrap">
+    <table id="content-table">
+      <thead>
+        <tr>
+          <th>Page / Module</th>
+          <th>Content ID</th>
+          <th>English status</th>
+          <th>Tamil adaptation</th>
+          <th>Clinical review</th>
+          <th>Tamil lang. review</th>
+          <th>Community feedback</th>
+          <th>Institutional approval</th>
+          <th>Publication status</th>
+          <th>Last updated</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="content-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Sources Register -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <h2>📚 Source Register</h2>
+      <p>Approved public sources used in this prototype — verification and reuse status</p>
+    </div>
+  </div>
+  <div class="filter-row">
+    <label>Filter by publisher:</label>
+    <select id="filter-pub" onchange="filterTable('src-table','filter-pub',1)">
+      <option value="">All publishers</option>
+    </select>
+    <label>Topic:</label>
+    <select id="filter-topic" onchange="filterTable('src-table','filter-topic',5)">
+      <option value="">All topics</option>
+    </select>
+  </div>
+  <div class="table-wrap">
+    <table id="src-table">
+      <thead>
+        <tr>
+          <th>Source ID</th>
+          <th>Publisher</th>
+          <th>Title</th>
+          <th>URL</th>
+          <th>Jurisdiction</th>
+          <th>Topics</th>
+          <th>Retrieved</th>
+          <th>Review status</th>
+          <th>Reuse terms</th>
+          <th>Content version</th>
+        </tr>
+      </thead>
+      <tbody id="src-tbody"></tbody>
+    </table>
+  </div>
+  <div class="sources-legend">
+    <span><span class="badge badge-ok">●</span> OGL / Crown Copyright — summarise &amp; link freely</span>
+    <span><span class="badge badge-warn">●</span> Permissions to confirm</span>
+    <span><span class="badge badge-info">●</span> Verified public, link only</span>
+  </div>
+</div>
+
+<!-- Version history -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <h2>🕑 Version History</h2>
+      <p>Prototype build log — changes and content versions</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Version</th><th>Date</th><th>Changed by</th><th>What changed</th><th>Content IDs affected</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>v0.1.0</td>
+          <td>2024-10-01</td>
+          <td>Prototype build (automated)</td>
+          <td>Initial prototype: homepage, Module 1, body map, symptoms, risk, screening, Ask page, RAG demo, sources register</td>
+          <td>ca-home, ca-m1-*, ca-bodymap, ca-symptoms, ca-risk, ca-screening, ca-ask</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Missing / blocked -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <h2>🚧 Outstanding Items</h2>
+      <p>Items awaiting decisions, credentials, or review before the prototype can advance</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Category</th><th>Priority</th><th>Owner</th><th>Status</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Institutional logo and approval</td>
+          <td>Institutional</td>
+          <td><span class="badge badge-err">High</span></td>
+          <td>Prof Anguraj Sadanandam</td>
+          <td><span class="badge badge-warn">Pending</span></td>
+          <td class="note-cell">Partners strip on homepage shows placeholder pending approval notice</td>
+        </tr>
+        <tr>
+          <td>Collaborating institution approval (if applicable)</td>
+          <td>Institutional</td>
+          <td><span class="badge badge-err">High</span></td>
+          <td>Prof Anguraj Sadanandam</td>
+          <td><span class="badge badge-warn">Pending</span></td>
+          <td class="note-cell">As above. No joint programme name used.</td>
+        </tr>
+        <tr>
+          <td>Clinical accuracy review — all pages</td>
+          <td>Clinical</td>
+          <td><span class="badge badge-err">High</span></td>
+          <td>Prof Anguraj Sadanandam / appointed clinician</td>
+          <td><span class="badge badge-warn">Awaiting</span></td>
+          <td class="note-cell">All English symptom/risk/screening content requires clinician review before public release</td>
+        </tr>
+        <tr>
+          <td>Tamil bilingual clinical review — all pages</td>
+          <td>Clinical + Language</td>
+          <td><span class="badge badge-err">High</span></td>
+          <td>Bilingual clinician / Tamil language reviewer</td>
+          <td><span class="badge badge-warn">Awaiting</span></td>
+          <td class="note-cell">All Tamil adaptations are prototype drafts; marked with review notice on-site</td>
+        </tr>
+        <tr>
+          <td>Community readability feedback</td>
+          <td>Community</td>
+          <td><span class="badge badge-warn">Medium</span></td>
+          <td>Community engagement lead</td>
+          <td><span class="badge badge-muted">Not started</span></td>
+          <td class="note-cell">Tamil-speaking community members to review for comprehension and cultural appropriateness</td>
+        </tr>
+        <tr>
+          <td>Ingest additional public patient information sources</td>
+          <td>Content / Sources</td>
+          <td><span class="badge badge-warn">Medium</span></td>
+          <td>Content team</td>
+          <td><span class="badge badge-muted">Pending permissions</span></td>
+          <td class="note-cell">Additional public health pages to be verified for reuse terms before ingestion</td>
+        </tr>
+        <tr>
+          <td>Ingest further public educational content</td>
+          <td>Content / Sources</td>
+          <td><span class="badge badge-warn">Medium</span></td>
+          <td>Content team</td>
+          <td><span class="badge badge-muted">Pending permissions</span></td>
+          <td class="note-cell">Further public pages to be verified for reuse terms before ingestion</td>
+        </tr>
+        <tr>
+          <td>Screening rules — Scotland, Wales, Northern Ireland</td>
+          <td>Content</td>
+          <td><span class="badge badge-warn">Medium</span></td>
+          <td>Content team</td>
+          <td><span class="badge badge-muted">Not started</span></td>
+          <td class="note-cell">Screening page currently England only; labelled as such</td>
+        </tr>
+        <tr>
+          <td>PWA hosting — managed server deployment</td>
+          <td>Technical</td>
+          <td><span class="badge badge-warn">Medium</span></td>
+          <td>Technical lead</td>
+          <td><span class="badge badge-muted">Local prototype only</span></td>
+          <td class="note-cell">Currently runs as local file prototype; needs managed hosting for PWA install to work</td>
+        </tr>
+        <tr>
+          <td>Bilingual audio recordings</td>
+          <td>Accessibility</td>
+          <td><span class="badge badge-info">Low</span></td>
+          <td>Content team + voice talent</td>
+          <td><span class="badge badge-muted">Not started</span></td>
+          <td class="note-cell">UI controls exist; audio files pending recording and clinical review</td>
+        </tr>
+        <tr>
+          <td>WCAG 2.2 AA formal audit</td>
+          <td>Accessibility</td>
+          <td><span class="badge badge-warn">Medium</span></td>
+          <td>Accessibility reviewer</td>
+          <td><span class="badge badge-muted">Automated checks only</span></td>
+          <td class="note-cell">Manual keyboard and screen reader testing required before public release</td>
+        </tr>
+        <tr>
+          <td>Glossary page (searchable bilingual)</td>
+          <td>Content</td>
+          <td><span class="badge badge-info">Low</span></td>
+          <td>Content team</td>
+          <td><span class="badge badge-muted">Planned</span></td>
+          <td class="note-cell">Bilingual medical term glossary — scheduled for next build iteration</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ---- Data ----------------------------------------------------------------
+const PAGES = [
+  {
+    title:'Homepage',id:'ca-home',file:'index.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'Prototype notice, disclaimer, partners strip (pending approval)'
+  },
+  {
+    title:'Module 1 — What is Cancer?',id:'ca-m1-what',file:'pages/understand.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'Interactive quiz, myth vs fact cards, SVG diagram'
+  },
+  {
+    title:'Body Map — Interactive',id:'ca-bodymap',file:'pages/body-map.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'12 cancer types; anatomical SVG with hotspots; tab panels'
+  },
+  {
+    title:'Symptoms — When to Act',id:'ca-symptoms',file:'pages/symptoms.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'999 urgency banner; 9 expandable symptom cards; GP guidance'
+  },
+  {
+    title:'Reduce Your Risk',id:'ca-risk',file:'pages/risk.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'Betel/areca nut IARC Group 1 warning; 6 risk cards; myth vs fact'
+  },
+  {
+    title:'Screening &amp; Tests',id:'ca-screening',file:'pages/screening.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'England only label; 4 NHS screening programmes; 2WW explanation'
+  },
+  {
+    title:'Ask a Question (RAG demo)',id:'ca-ask',file:'pages/ask.html',
+    enStatus:'Draft',ta:'Draft bilingual — prototype',
+    clinical:'Awaiting',tamilLang:'Awaiting',community:'Not started',
+    institutional:'Pending',published:'No — prototype only',updated:'2024-10-01',
+    notes:'Keyword RAG; 8 curated QA pairs; fallback to NHS/CRUK/Macmillan; urgent pattern detection'
+  },
+  {
+    title:'Review Dashboard (this page)',id:'ca-review',file:'review/dashboard.html',
+    enStatus:'Draft',ta:'N/A — internal tool',
+    clinical:'N/A',tamilLang:'N/A',community:'N/A',
+    institutional:'N/A',published:'No — internal only',updated:'2024-10-01',
+    notes:'Internal editorial tracking; not a public-facing page'
+  },
+];
+
+const SOURCES = [
+  {id:'nhs-cancer-overview',publisher:'NHS England',title:'Cancer — Overview',url:'https://www.nhs.uk/conditions/cancer/',jurisdiction:'England',topics:'general,what-is-cancer',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright — summarise & link',version:'2024'},
+  {id:'nhs-bowel-cancer',publisher:'NHS England',title:'Bowel cancer',url:'https://www.nhs.uk/conditions/bowel-cancer/',jurisdiction:'England',topics:'bowel,symptoms,risk',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nhs-bowel-screening',publisher:'NHS England',title:'Bowel cancer screening',url:'https://www.nhs.uk/conditions/bowel-cancer-screening/',jurisdiction:'England',topics:'screening,bowel',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nhs-breast-cancer',publisher:'NHS England',title:'Breast cancer (female)',url:'https://www.nhs.uk/conditions/breast-cancer/',jurisdiction:'England',topics:'breast,symptoms,risk',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nhs-breast-screening',publisher:'NHS England',title:'Breast cancer screening',url:'https://www.nhs.uk/conditions/breast-cancer-screening/',jurisdiction:'England',topics:'screening,breast',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nhs-cervical-screening',publisher:'NHS England',title:'Cervical screening',url:'https://www.nhs.uk/conditions/cervical-screening/',jurisdiction:'England',topics:'screening,cervical',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nhs-lung-cancer',publisher:'NHS England',title:'Lung cancer',url:'https://www.nhs.uk/conditions/lung-cancer/',jurisdiction:'England',topics:'lung,symptoms,risk',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'cruk-causes',publisher:'Cancer Research UK',title:'Cancer causes and risk factors',url:'https://www.cancerresearchuk.org/about-cancer/causes-of-cancer',jurisdiction:'UK',topics:'risk,causes,general',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'Permissions to confirm — link preferred',version:'2024'},
+  {id:'cruk-symptoms',publisher:'Cancer Research UK',title:'Cancer symptoms',url:'https://www.cancerresearchuk.org/about-cancer/cancer-symptoms',jurisdiction:'UK',topics:'symptoms',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'Permissions to confirm — link preferred',version:'2024'},
+  {id:'iarc-betel-nut',publisher:'IARC',title:'IARC Monographs Vol. 85 — Betel-quid and Areca-nut Chewing',url:'https://monographs.iarc.fr/ENG/Monographs/vol85/',jurisdiction:'International',topics:'risk,areca,betel',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'Link; confirm reuse of text',version:'2004 (Vol. 85)'},
+  {id:'macmillan-what-is-cancer',publisher:'Macmillan Cancer Support',title:'What is cancer?',url:'https://www.macmillan.org.uk/cancer-information-and-support/worried-about-cancer/what-is-cancer',jurisdiction:'UK',topics:'general,what-is-cancer',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'Permissions to confirm — link preferred',version:'2024'},
+  {id:'nhs-hpv-vaccine',publisher:'NHS England',title:'HPV vaccine',url:'https://www.nhs.uk/conditions/vaccinations/hpv-human-papillomavirus-vaccine/',jurisdiction:'England',topics:'risk,vaccination,cervical',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nhs-stop-smoking',publisher:'NHS England',title:'Stop smoking',url:'https://www.nhs.uk/live-well/quit-smoking/',jurisdiction:'England',topics:'risk,smoking',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'OGL / Crown Copyright',version:'2024'},
+  {id:'nice-suspected-cancer',publisher:'NICE',title:'Suspected cancer: recognition and referral (NG12)',url:'https://www.nice.org.uk/guidance/ng12',jurisdiction:'England',topics:'referral,2ww,symptoms',retrieved:'2024-10-01',reviewStatus:'Verified public',reuse:'Permissions to confirm — link preferred',version:'2023 update'},
+];
+
+// ---- Render pages table --------------------------------------------------
+function statusBadge(val){
+  if(!val || val==='N/A') return `<span class="badge badge-muted">${val||'—'}</span>`;
+  if(/approved|verified|yes/i.test(val)) return `<span class="badge badge-ok">${val}</span>`;
+  if(/awaiting|pending|planned/i.test(val)) return `<span class="badge badge-warn">${val}</span>`;
+  if(/draft/i.test(val)) return `<span class="badge badge-info">${val}</span>`;
+  if(/no/i.test(val)) return `<span class="badge badge-err">${val}</span>`;
+  return `<span class="badge badge-muted">${val}</span>`;
+}
+
+function reuseBadge(r){
+  if(/OGL|Crown/i.test(r)) return `<span class="badge badge-ok">OGL</span>`;
+  if(/confirm/i.test(r)) return `<span class="badge badge-warn">Confirm</span>`;
+  return `<span class="badge badge-info">Link only</span>`;
+}
+
+const tbody = document.getElementById('content-tbody');
+PAGES.forEach(p=>{
+  tbody.innerHTML += `<tr>
+    <td><div class="content-title">${p.title}</div><a class="url-link" href="../${p.file}">${p.file}</a></td>
+    <td><code class="content-id">${p.id}</code></td>
+    <td>${statusBadge(p.enStatus)}</td>
+    <td>${statusBadge(p.ta)}</td>
+    <td>${statusBadge(p.clinical)}</td>
+    <td>${statusBadge(p.tamilLang)}</td>
+    <td>${statusBadge(p.community)}</td>
+    <td>${statusBadge(p.institutional)}</td>
+    <td>${statusBadge(p.published)}</td>
+    <td>${p.updated}</td>
+    <td class="note-cell">${p.notes}</td>
+  </tr>`;
+});
+
+// ---- Render sources table ------------------------------------------------
+const srcTbody = document.getElementById('src-tbody');
+const pubSet = new Set(), topicSet = new Set();
+SOURCES.forEach(s=>{
+  pubSet.add(s.publisher);
+  s.topics.split(',').forEach(t=>topicSet.add(t.trim()));
+  srcTbody.innerHTML += `<tr>
+    <td><code class="content-id">${s.id}</code></td>
+    <td>${s.publisher}</td>
+    <td>${s.title}</td>
+    <td><a class="url-link" href="${s.url}" target="_blank" rel="noopener">${s.url}</a></td>
+    <td><span class="badge badge-muted">${s.jurisdiction}</span></td>
+    <td style="max-width:140px;font-size:.78rem">${s.topics.split(',').map(t=>`<span class="badge badge-info">${t.trim()}</span>`).join(' ')}</td>
+    <td>${s.retrieved}</td>
+    <td><span class="badge badge-ok">${s.reviewStatus}</span></td>
+    <td>${reuseBadge(s.reuse)} <span style="font-size:.72rem;display:block;margin-top:.2rem;color:var(--clr-muted)">${s.reuse}</span></td>
+    <td><span class="badge badge-muted">${s.version}</span></td>
+  </tr>`;
+});
+
+// Populate publisher filter
+const pubSel = document.getElementById('filter-pub');
+[...pubSet].sort().forEach(p=>{ pubSel.innerHTML+=`<option value="${p}">${p}</option>`; });
+const topicSel = document.getElementById('filter-topic');
+[...topicSet].sort().forEach(t=>{ topicSel.innerHTML+=`<option value="${t}">${t}</option>`; });
+
+// ---- Stats ---------------------------------------------------------------
+document.getElementById('stat-pages').textContent = PAGES.filter(p=>p.id!=='ca-review').length;
+document.getElementById('stat-src-ok').textContent = SOURCES.length;
+document.getElementById('stat-clinical').textContent = PAGES.filter(p=>p.clinical==='Awaiting').length;
+document.getElementById('stat-tamil').textContent = PAGES.filter(p=>p.tamilLang==='Awaiting').length;
+document.getElementById('stat-approved').textContent = PAGES.filter(p=>/approved/i.test(p.institutional)).length;
+document.getElementById('stat-published').textContent = PAGES.filter(p=>/^yes/i.test(p.published)).length;
+
+// ---- Table filtering -----------------------------------------------------
+function filterTable(tableId, selectId, colIdx){
+  const val = document.getElementById(selectId).value.toLowerCase();
+  document.querySelectorAll(`#${tableId} tbody tr`).forEach(row=>{
+    const cell = row.cells[colIdx];
+    row.style.display = (!val || (cell && cell.textContent.toLowerCase().includes(val))) ? '' : 'none';
+  });
+}
+function searchTable(tableId, inputId, colIdx){
+  const val = document.getElementById(inputId).value.toLowerCase();
+  document.querySelectorAll(`#${tableId} tbody tr`).forEach(row=>{
+    const cell = row.cells[colIdx];
+    row.style.display = (!val || (cell && cell.textContent.toLowerCase().includes(val))) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

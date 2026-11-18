@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="both">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Map | உடல் வரைபடம் — Cancer Awareness</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .body-map-page { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-10); align-items: start; padding: var(--sp-10) 0; }
+    @media(max-width:768px) { .body-map-page { grid-template-columns: 1fr; } }
+
+    .body-figure { position: relative; max-width: 320px; margin: 0 auto; }
+    .body-svg { width: 100%; cursor: default; }
+
+    /* Hotspot buttons */
+    .hotspot {
+      position: absolute;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 3px solid white;
+      background: rgba(13,107,110,0.5);
+      cursor: pointer;
+      transform: translate(-50%,-50%);
+      transition: var(--transition-fast);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .hotspot:hover, .hotspot.active { background: var(--clr-primary); transform: translate(-50%,-50%) scale(1.2); }
+    .hotspot:focus-visible { outline: none; box-shadow: var(--shadow-focus), 0 2px 8px rgba(0,0,0,0.3); }
+    .hotspot-pulse {
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--clr-primary-light);
+      animation: pulse 2s ease-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:0;transform:scale(1.6)} }
+
+    /* Cancer info panel */
+    .info-panel { position: sticky; top: calc(var(--header-h) + var(--sp-6)); }
+    .info-panel-inner {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      min-height: 24rem;
+    }
+    .info-panel-header {
+      background: var(--clr-primary);
+      color: white;
+      padding: var(--sp-5) var(--sp-6);
+    }
+    .info-panel-body { padding: var(--sp-6); }
+    .info-panel-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; height: 20rem; color: var(--clr-text-muted); gap: var(--sp-3);
+    }
+    .cancer-detail-tabs { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-5); }
+    .tab-btn {
+      border: 1px solid var(--clr-border); border-radius: var(--radius-full);
+      background: var(--clr-surface); font-size: var(--text-xs); font-weight: 500;
+      padding: var(--sp-1) var(--sp-3); cursor: pointer; font-family: inherit;
+      color: var(--clr-text-secondary); transition: var(--transition-fast);
+    }
+    .tab-btn:hover, .tab-btn.active { background: var(--clr-primary); color: white; border-color: var(--clr-primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Type list (mobile / accessible fallback) */
+    .cancer-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+      gap: var(--sp-3);
+      margin-top: var(--sp-6);
+    }
+    .type-chip-btn {
+      border: 1px solid var(--clr-border); border-radius: var(--radius-md);
+      background: var(--clr-surface); padding: var(--sp-3) var(--sp-4);
+      font-size: var(--text-sm); font-family: inherit; cursor: pointer;
+      text-align: left; color: var(--clr-text-secondary); transition: var(--transition-fast);
+      display: flex; align-items: center; gap: var(--sp-2);
+    }
+    .type-chip-btn:hover, .type-chip-btn.active {
+      background: var(--clr-surface-raised); border-color: var(--clr-primary); color: var(--clr-primary);
+    }
+  </style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="prototype-notice">🔒 PRIVATE PROTOTYPE — Awaiting clinical and language review</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo" aria-label="Cancer Awareness Home">
+      <div class="logo-icon" aria-hidden="true">CA</div>
+      <div>
+        <div class="logo-text-en">Cancer Awareness</div>
+        <div class="logo-text-ta">புற்றுநோய் விழிப்புணர்வு</div>
+      </div>
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="understand.html" class="nav-link">Understand cancer</a>
+      <a href="body-map.html" class="nav-link active">Body map</a>
+      <a href="symptoms.html" class="nav-link">Symptoms</a>
+      <a href="risk.html" class="nav-link">Reduce risk</a>
+      <a href="screening.html" class="nav-link">Screening</a>
+      <a href="ask.html" class="nav-link">Ask a question</a>
+    </nav>
+    <div class="header-controls">
+      <div class="lang-switcher" role="group" aria-label="Language display mode">
+        <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+        <button class="lang-btn active" data-lang-btn="both" aria-pressed="true">EN+தமிழ்</button>
+        <button class="lang-btn" data-lang-btn="ta" aria-pressed="false">தமிழ்</button>
+      </div>
+      <button class="nav-toggle btn btn-ghost btn-sm" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- HERO -->
+  <div style="background:linear-gradient(135deg,#1D3461,#2949A0);color:white;padding:var(--sp-10) 0">
+    <div class="container">
+      <h1 style="color:white;font-size:clamp(var(--text-2xl),4vw,var(--text-3xl));margin-bottom:var(--sp-3)">
+        <span class="en-only">Explore the body</span>
+        <span class="ta-only ta">உடல் வரைபடம்</span>
+      </h1>
+      <p style="opacity:0.85;max-width:38rem">
+        <span class="en-only">Tap any highlighted area or choose from the list below to learn where cancers can occur, who is affected, what symptoms to look out for, and when to seek help.</span>
+        <span class="ta-only ta">புற்றுநோய் எங்கு வரலாம், யாரை பாதிக்கும், என்ன அறிகுறிகள், எப்போது உதவி தேட வேண்டும் என்று அறிய எந்த பகுதியையும் தட்டுங்கள்.</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="body-map-page">
+
+      <!-- LEFT: Body figure with hotspots -->
+      <div>
+        <!-- Gender toggle -->
+        <div style="display:flex;justify-content:center;gap:.5rem;margin-bottom:1rem" role="group" aria-label="Select body figure">
+          <button id="toggle-male" onclick="setFigure('male')"
+            style="padding:.45rem 1.2rem;border-radius:999px;border:2px solid #0D6B6E;background:#0D6B6E;color:white;font-weight:600;font-size:.85rem;cursor:pointer">
+            ♂ Male
+          </button>
+          <button id="toggle-female" onclick="setFigure('female')"
+            style="padding:.45rem 1.2rem;border-radius:999px;border:2px solid #0D6B6E;background:white;color:#0D6B6E;font-weight:600;font-size:.85rem;cursor:pointer">
+            ♀ Female
+          </button>
+        </div>
+
+        <div class="body-figure" role="group" aria-label="Interactive body diagram — click coloured organ areas to learn about cancers" style="max-width:280px">
+
+          <!-- ========== MALE FIGURE ========== -->
+          <svg id="figure-male" class="body-svg" viewBox="0 0 200 490"
+               xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="filter:drop-shadow(0 4px 14px rgba(0,0,0,0.13))">
+            <defs>
+              <linearGradient id="bf" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#EBF3F8"/>
+                <stop offset="100%" stop-color="#C8DCE8"/>
+              </linearGradient>
+              <linearGradient id="ss" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#4A7A94" stop-opacity="0.18"/>
+                <stop offset="30%"  stop-color="#4A7A94" stop-opacity="0"/>
+                <stop offset="70%"  stop-color="#4A7A94" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#4A7A94" stop-opacity="0.18"/>
+              </linearGradient>
+              <linearGradient id="lf" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#D4E8F0"/>
+                <stop offset="100%" stop-color="#B8CFDC"/>
+              </linearGradient>
+            </defs>
+
+            <!-- shadow -->
+            <ellipse cx="100" cy="486" rx="50" ry="5" fill="rgba(0,0,0,0.09)"/>
+
+            <!-- LEFT ARM -->
+            <path d="M 36 94 C 24 100 16 118 12 146 C 8 172 8 202 10 228
+                     C 12 248 16 262 22 268 L 40 268
+                     C 36 258 32 242 32 220 C 32 196 34 168 40 144
+                     C 44 124 50 108 58 98 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+            <path d="M 10 272 C 8 284 8 294 12 300 C 16 306 24 308 32 306
+                     C 40 304 44 298 44 290 L 42 270 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- RIGHT ARM -->
+            <path d="M 164 94 C 176 100 184 118 188 146 C 192 172 192 202 190 228
+                     C 188 248 184 262 178 268 L 160 268
+                     C 164 258 168 242 168 220 C 168 196 166 168 160 144
+                     C 156 124 150 108 142 98 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+            <path d="M 190 272 C 192 284 192 294 188 300 C 184 306 176 308 168 306
+                     C 160 304 156 298 156 290 L 158 270 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- LEFT LEG -->
+            <path d="M 54 318 C 50 344 48 378 46 412 C 44 440 44 462 46 476
+                     C 48 484 54 488 62 488 L 80 488
+                     C 86 488 90 484 92 476 C 94 462 92 438 90 410
+                     C 88 376 86 342 86 318 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- RIGHT LEG -->
+            <path d="M 146 318 C 150 344 152 378 154 412 C 156 440 156 462 154 476
+                     C 152 484 146 488 138 488 L 120 488
+                     C 114 488 110 484 108 476 C 106 462 108 438 110 410
+                     C 112 376 114 342 114 318 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- TORSO (male: broad shoulders, slight waist) -->
+            <path d="M 90 80 L 36 90
+                     C 26 94 22 104 20 118 L 18 184
+                     C 18 206 22 226 30 244 C 38 260 50 270 64 272
+                     L 136 272 C 150 270 162 260 170 244
+                     C 178 226 182 206 182 184 L 180 118
+                     C 178 104 174 94 164 90 L 110 80 Z"
+                  fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M 90 80 L 36 90 C 26 94 22 104 20 118 L 18 184
+                     C 18 206 22 226 30 244 C 38 260 50 270 64 272 L 72 272
+                     C 60 265 50 254 44 238 C 36 220 34 200 34 180 L 36 118
+                     C 38 106 44 98 54 94 Z" fill="url(#ss)"/>
+            <path d="M 110 80 L 164 90 C 174 94 178 104 180 118 L 182 184
+                     C 182 206 178 226 170 244 C 162 260 150 270 136 272 L 128 272
+                     C 140 265 150 254 156 238 C 164 220 166 200 166 180 L 164 118
+                     C 162 106 156 98 146 94 Z" fill="url(#ss)"/>
+            <!-- sternum -->
+            <line x1="100" y1="92" x2="100" y2="244"
+                  stroke="#4A7A94" stroke-width="1.0" stroke-dasharray="4 3" opacity="0.3"/>
+            <!-- collarbone -->
+            <path d="M 90 84 C 76 88 60 90 46 90" fill="none" stroke="#4A7A94" stroke-width="1.0" opacity="0.45"/>
+            <path d="M 110 84 C 124 88 140 90 154 90" fill="none" stroke="#4A7A94" stroke-width="1.0" opacity="0.45"/>
+            <!-- pec ridge -->
+            <path d="M 44 148 C 60 160 80 164 100 162 C 120 164 140 160 156 148"
+                  fill="none" stroke="#4A7A94" stroke-width="0.9" opacity="0.22"/>
+            <!-- navel -->
+            <ellipse cx="100" cy="230" rx="4" ry="5" fill="#4A7A94" opacity="0.20"/>
+
+            <!-- PELVIS -->
+            <path d="M 64 272 C 54 278 50 292 50 310 C 50 322 56 330 72 332
+                     L 128 332 C 144 330 150 322 150 310
+                     C 150 292 146 278 136 272 Z"
+                  fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6" stroke-linejoin="round"/>
+            <line x1="100" y1="318" x2="100" y2="332" stroke="#4A7A94" stroke-width="1.0" opacity="0.3"/>
+
+            <!-- NECK -->
+            <path d="M 90 64 L 90 82 C 94 86 100 88 106 86 C 110 84 110 82 110 80
+                     L 110 64 C 106 60 100 60 94 62 Z"
+                  fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6" stroke-linejoin="round"/>
+
+            <!-- HEAD -->
+            <ellipse cx="100" cy="38" rx="26" ry="30"
+                     fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6"/>
+            <!-- short hair cap -->
+            <path d="M 74 32 C 76 14 86 8 100 8 C 114 8 124 14 126 32
+                     C 122 20 112 14 100 14 C 88 14 78 20 74 32 Z"
+                  fill="#2D3B45"/>
+            <!-- eyes -->
+            <circle cx="91"  cy="38" r="4.5" fill="white" stroke="#4A7A94" stroke-width="1.0" opacity="0.95"/>
+            <circle cx="109" cy="38" r="4.5" fill="white" stroke="#4A7A94" stroke-width="1.0" opacity="0.95"/>
+            <circle cx="91"  cy="38" r="2.4" fill="#1A2730"/>
+            <circle cx="109" cy="38" r="2.4" fill="#1A2730"/>
+            <!-- nose -->
+            <path d="M 100 44 L 97 54 Q 100 57 103 54 Z"
+                  fill="none" stroke="#4A7A94" stroke-width="0.9" opacity="0.3"/>
+            <!-- mouth -->
+            <path d="M 94 60 Q 100 64 106 60" fill="none"
+                  stroke="#4A7A94" stroke-width="1.0" opacity="0.4" stroke-linecap="round"/>
+
+            <!-- ════ ORGAN OVERLAYS ════ -->
+
+            <!-- BRAIN -->
+            <ellipse cx="100" cy="26" rx="20" ry="17"
+                     fill="rgba(126,87,194,0.22)" stroke="#512DA8" stroke-width="1.6"
+                     stroke-dasharray="4 2" class="organ-overlay" data-cancer="brain"/>
+
+            <!-- MOUTH / THROAT -->
+            <ellipse cx="100" cy="66" rx="11" ry="8"
+                     fill="rgba(216,27,96,0.20)" stroke="#880E4F" stroke-width="1.5"
+                     stroke-dasharray="3 2" class="organ-overlay" data-cancer="mouth"/>
+
+            <!-- THYROID -->
+            <path d="M 93 78 Q 100 74 107 78 Q 110 84 107 89 Q 100 92 93 89 Q 90 84 93 78 Z"
+                  fill="rgba(245,124,0,0.28)" stroke="#E65100" stroke-width="1.5"
+                  class="organ-overlay" data-cancer="thyroid"/>
+
+            <!-- LEFT LUNG -->
+            <path d="M 36 112 C 30 120 28 136 28 156 C 28 180 32 200 38 212
+                     C 44 222 54 228 66 224 C 76 220 82 208 84 192
+                     C 86 172 82 148 74 132 C 68 120 56 110 46 110 C 42 110 38 110 36 112 Z"
+                  fill="rgba(30,136,229,0.22)" stroke="#1565C0" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="lung"/>
+            <path d="M 44 128 C 56 152 68 180 72 210"
+                  fill="none" stroke="#1565C0" stroke-width="0.8" opacity="0.4"/>
+
+            <!-- RIGHT LUNG -->
+            <path d="M 164 112 C 170 120 172 136 172 156 C 172 180 168 200 162 212
+                     C 156 222 146 228 134 224 C 124 220 118 208 116 192
+                     C 114 172 118 148 126 132 C 132 120 144 110 154 110 C 158 110 162 110 164 112 Z"
+                  fill="rgba(30,136,229,0.22)" stroke="#1565C0" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="lung"/>
+            <path d="M 156 128 C 144 152 132 180 128 210"
+                  fill="none" stroke="#1565C0" stroke-width="0.8" opacity="0.4"/>
+
+            <!-- HEART / BLOOD -->
+            <path d="M 100 128 C 92 118 80 118 76 128 C 72 140 78 154 100 170
+                     C 122 154 128 140 124 128 C 120 118 108 118 100 128 Z"
+                  fill="rgba(211,47,47,0.28)" stroke="#B71C1C" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="blood"/>
+
+            <!-- STOMACH -->
+            <path d="M 78 180 C 70 184 66 194 68 206 C 70 218 78 226 90 228
+                     C 100 230 108 224 112 214 C 116 202 112 188 104 182
+                     C 96 176 84 176 78 180 Z"
+                  fill="rgba(249,168,37,0.28)" stroke="#F57F17" stroke-width="1.5"
+                  class="organ-overlay" data-cancer="stomach"/>
+
+            <!-- LIVER -->
+            <path d="M 108 174 C 118 170 134 172 146 180 C 156 188 160 202 158 216
+                     C 156 228 148 234 136 234 C 124 234 114 226 110 214
+                     C 106 202 106 188 108 174 Z"
+                  fill="rgba(121,85,72,0.28)" stroke="#4E342E" stroke-width="1.5"
+                  class="organ-overlay" data-cancer="liver"/>
+
+            <!-- BOWEL -->
+            <path d="M 44 228 C 36 242 36 258 40 272 C 42 282 48 288 58 290
+                     L 142 290 C 152 288 158 282 160 272
+                     C 164 258 164 242 156 228 C 146 234 124 238 100 238
+                     C 76 238 54 234 44 228 Z"
+                  fill="rgba(67,160,71,0.22)" stroke="#2E7D32" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="bowel"/>
+
+            <!-- PROSTATE / BLADDER -->
+            <ellipse cx="100" cy="302" rx="22" ry="14"
+                     fill="rgba(0,172,193,0.26)" stroke="#006064" stroke-width="1.7"
+                     class="organ-overlay" data-cancer="prostate"/>
+
+            <!-- KIDNEYS -->
+            <path d="M 32 198 C 26 204 24 214 26 224 C 28 232 36 236 44 234
+                     C 50 232 54 224 52 216 C 50 206 42 196 34 196 Z"
+                  fill="rgba(255,143,0,0.26)" stroke="#E65100" stroke-width="1.3"
+                  class="organ-overlay" data-cancer="prostate"/>
+            <path d="M 168 198 C 174 204 176 214 174 224 C 172 232 164 236 156 234
+                     C 150 232 146 224 148 216 C 150 206 158 196 166 196 Z"
+                  fill="rgba(255,143,0,0.26)" stroke="#E65100" stroke-width="1.3"
+                  class="organ-overlay" data-cancer="prostate"/>
+
+            <!-- SKIN -->
+            <rect x="8" y="186" width="13" height="52" rx="6.5"
+                  fill="rgba(220,210,0,0.30)" stroke="#9E9D24" stroke-width="1.4"
+                  class="organ-overlay" data-cancer="skin"/>
+
+            <text x="100" y="482" text-anchor="middle" font-size="9"
+                  font-family="system-ui,sans-serif" fill="#4A7A94" font-weight="600" opacity="0.6">MALE</text>
+          </svg>
+
+          <!-- ========== FEMALE FIGURE ========== -->
+          <svg id="figure-female" class="body-svg" viewBox="0 0 200 490"
+               xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="display:none;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.13))">
+            <defs>
+              <linearGradient id="bf" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#EBF3F8"/>
+                <stop offset="100%" stop-color="#C8DCE8"/>
+              </linearGradient>
+              <linearGradient id="ss" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#4A7A94" stop-opacity="0.18"/>
+                <stop offset="30%"  stop-color="#4A7A94" stop-opacity="0"/>
+                <stop offset="70%"  stop-color="#4A7A94" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#4A7A94" stop-opacity="0.18"/>
+              </linearGradient>
+              <linearGradient id="lf" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#D4E8F0"/>
+                <stop offset="100%" stop-color="#B8CFDC"/>
+              </linearGradient>
+            </defs>
+
+            <ellipse cx="100" cy="486" rx="48" ry="5" fill="rgba(0,0,0,0.09)"/>
+
+            <!-- HAIR (long — behind figure) -->
+            <path d="M 76 28 C 66 46 62 70 60 96 C 58 118 60 140 64 158
+                     C 66 142 70 118 74 96 L 76 60 Z" fill="#2D3B45" opacity="0.9"/>
+            <path d="M 124 28 C 134 46 138 70 140 96 C 142 118 140 140 136 158
+                     C 134 142 130 118 126 96 L 124 60 Z" fill="#2D3B45" opacity="0.9"/>
+
+            <!-- LEFT ARM -->
+            <path d="M 40 96 C 30 104 22 122 18 150 C 14 176 14 206 16 230
+                     C 18 250 22 264 28 270 L 44 268
+                     C 40 256 36 240 36 218 C 36 194 38 166 44 142
+                     C 48 122 54 108 62 100 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+            <path d="M 14 274 C 12 286 12 296 16 302 C 20 308 28 310 36 308
+                     C 44 306 48 300 48 292 L 46 270 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- RIGHT ARM -->
+            <path d="M 160 96 C 170 104 178 122 182 150 C 186 176 186 206 184 230
+                     C 182 250 178 264 172 270 L 156 268
+                     C 160 256 164 240 164 218 C 164 194 162 166 156 142
+                     C 152 122 146 108 138 100 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+            <path d="M 186 274 C 188 286 188 296 184 302 C 180 308 172 310 164 308
+                     C 156 306 152 300 152 292 L 154 270 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- LEFT LEG -->
+            <path d="M 52 328 C 46 354 42 388 40 422 C 38 452 38 468 40 480
+                     C 42 486 48 490 58 490 L 76 490
+                     C 84 490 88 486 90 480 C 92 468 90 450 88 420
+                     C 86 386 84 352 84 328 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- RIGHT LEG -->
+            <path d="M 148 328 C 154 354 158 388 160 422 C 162 452 162 468 160 480
+                     C 158 486 152 490 142 490 L 124 490
+                     C 116 490 112 486 110 480 C 108 468 110 450 112 420
+                     C 114 386 116 352 116 328 Z"
+                  fill="url(#lf)" stroke="#4A7A94" stroke-width="1.4" stroke-linejoin="round"/>
+
+            <!-- TORSO (narrower shoulders, waist, wide hips) -->
+            <path d="M 92 80 L 42 90
+                     C 34 94 28 104 26 118 L 24 170
+                     C 24 188 26 204 30 218 C 34 232 40 242 48 250
+                     C 56 260 62 266 66 272 L 134 272
+                     C 138 266 144 260 152 250 C 160 242 166 232 170 218
+                     C 174 204 176 188 176 170 L 174 118
+                     C 172 104 166 94 158 90 L 108 80 Z"
+                  fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M 92 80 L 42 90 C 34 94 28 104 26 118 L 24 170
+                     C 24 188 26 204 30 218 C 34 232 40 242 48 250 L 56 258
+                     C 48 248 42 236 38 220 C 34 204 34 186 34 168 L 36 118
+                     C 38 106 44 96 54 92 Z" fill="url(#ss)"/>
+            <path d="M 108 80 L 158 90 C 166 94 172 104 174 118 L 176 170
+                     C 176 188 174 204 170 218 C 166 232 160 242 152 250 L 144 258
+                     C 152 248 158 236 162 220 C 166 204 166 186 166 168 L 164 118
+                     C 162 106 156 96 146 92 Z" fill="url(#ss)"/>
+            <!-- sternum -->
+            <line x1="100" y1="92" x2="100" y2="244"
+                  stroke="#4A7A94" stroke-width="1.0" stroke-dasharray="4 3" opacity="0.3"/>
+            <!-- collarbone -->
+            <path d="M 92 84 C 78 88 62 90 48 90" fill="none" stroke="#4A7A94" stroke-width="1.0" opacity="0.45"/>
+            <path d="M 108 84 C 122 88 138 90 152 90" fill="none" stroke="#4A7A94" stroke-width="1.0" opacity="0.45"/>
+            <!-- breast contour -->
+            <path d="M 44 152 C 50 170 62 184 78 190 C 90 194 100 192 100 192"
+                  fill="none" stroke="#4A7A94" stroke-width="1.1" opacity="0.3"/>
+            <path d="M 156 152 C 150 170 138 184 122 190 C 110 194 100 192 100 192"
+                  fill="none" stroke="#4A7A94" stroke-width="1.1" opacity="0.3"/>
+            <!-- navel -->
+            <ellipse cx="100" cy="234" rx="3.5" ry="4.5" fill="#4A7A94" opacity="0.20"/>
+
+            <!-- WIDE PELVIS -->
+            <path d="M 66 272 C 48 278 36 294 34 316 C 32 330 42 338 62 340
+                     L 138 340 C 158 338 168 330 166 316
+                     C 164 294 152 278 134 272 Z"
+                  fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6" stroke-linejoin="round"/>
+            <line x1="100" y1="328" x2="100" y2="340" stroke="#4A7A94" stroke-width="1.0" opacity="0.28"/>
+
+            <!-- NECK -->
+            <path d="M 92 64 L 92 82 C 96 86 100 88 104 86 C 108 84 108 82 108 80
+                     L 108 64 C 104 60 100 60 96 62 Z"
+                  fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6" stroke-linejoin="round"/>
+
+            <!-- HEAD -->
+            <ellipse cx="100" cy="38" rx="25" ry="29"
+                     fill="url(#bf)" stroke="#4A7A94" stroke-width="1.6"/>
+            <!-- hair top -->
+            <path d="M 76 28 C 78 10 88 6 100 6 C 112 6 122 10 124 28
+                     C 120 16 110 10 100 10 C 90 10 80 16 76 28 Z"
+                  fill="#2D3B45"/>
+            <!-- eyes -->
+            <circle cx="91"  cy="38" r="4.5" fill="white" stroke="#4A7A94" stroke-width="1.0" opacity="0.95"/>
+            <circle cx="109" cy="38" r="4.5" fill="white" stroke="#4A7A94" stroke-width="1.0" opacity="0.95"/>
+            <circle cx="91"  cy="38" r="2.4" fill="#1A2730"/>
+            <circle cx="109" cy="38" r="2.4" fill="#1A2730"/>
+            <!-- lashes -->
+            <path d="M 87 34 Q 91 30 95 34" fill="none" stroke="#2D3B45" stroke-width="1.3" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 105 34 Q 109 30 113 34" fill="none" stroke="#2D3B45" stroke-width="1.3" stroke-linecap="round" opacity="0.7"/>
+            <!-- nose -->
+            <path d="M 100 44 L 97 54 Q 100 57 103 54 Z"
+                  fill="none" stroke="#4A7A94" stroke-width="0.9" opacity="0.3"/>
+            <!-- mouth -->
+            <path d="M 94 60 Q 100 64 106 60" fill="none"
+                  stroke="#4A7A94" stroke-width="1.0" opacity="0.4" stroke-linecap="round"/>
+
+            <!-- ════ ORGAN OVERLAYS ════ -->
+
+            <!-- BRAIN -->
+            <ellipse cx="100" cy="26" rx="19" ry="16"
+                     fill="rgba(126,87,194,0.22)" stroke="#512DA8" stroke-width="1.6"
+                     stroke-dasharray="4 2" class="organ-overlay" data-cancer="brain"/>
+
+            <!-- MOUTH / THROAT -->
+            <ellipse cx="100" cy="66" rx="10" ry="8"
+                     fill="rgba(216,27,96,0.20)" stroke="#880E4F" stroke-width="1.5"
+                     stroke-dasharray="3 2" class="organ-overlay" data-cancer="mouth"/>
+
+            <!-- THYROID -->
+            <path d="M 93 78 Q 100 74 107 78 Q 110 84 107 89 Q 100 92 93 89 Q 90 84 93 78 Z"
+                  fill="rgba(245,124,0,0.28)" stroke="#E65100" stroke-width="1.5"
+                  class="organ-overlay" data-cancer="thyroid"/>
+
+            <!-- BREAST (female) -->
+            <ellipse cx="76"  cy="162" rx="22" ry="20"
+                     fill="rgba(216,27,96,0.20)" stroke="#AD1457" stroke-width="1.8"
+                     class="organ-overlay" data-cancer="breast"/>
+            <ellipse cx="124" cy="162" rx="22" ry="20"
+                     fill="rgba(216,27,96,0.20)" stroke="#AD1457" stroke-width="1.8"
+                     class="organ-overlay" data-cancer="breast"/>
+
+            <!-- LEFT LUNG -->
+            <path d="M 36 112 C 30 120 28 136 28 158 C 28 182 32 202 38 213
+                     C 44 222 54 226 66 222 C 76 218 82 206 82 188
+                     C 82 164 76 140 66 124 C 60 114 48 108 40 110 C 38 110 36 110 36 112 Z"
+                  fill="rgba(30,136,229,0.22)" stroke="#1565C0" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="lung"/>
+            <path d="M 44 128 C 56 152 66 180 68 212"
+                  fill="none" stroke="#1565C0" stroke-width="0.8" opacity="0.4"/>
+
+            <!-- RIGHT LUNG -->
+            <path d="M 164 112 C 170 120 172 136 172 158 C 172 182 168 202 162 213
+                     C 156 222 146 226 134 222 C 124 218 118 206 118 188
+                     C 118 164 124 140 134 124 C 140 114 152 108 160 110 C 162 110 164 110 164 112 Z"
+                  fill="rgba(30,136,229,0.22)" stroke="#1565C0" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="lung"/>
+            <path d="M 156 128 C 144 152 134 180 132 212"
+                  fill="none" stroke="#1565C0" stroke-width="0.8" opacity="0.4"/>
+
+            <!-- HEART / BLOOD -->
+            <path d="M 100 128 C 92 118 80 118 76 128 C 72 140 78 154 100 170
+                     C 122 154 128 140 124 128 C 120 118 108 118 100 128 Z"
+                  fill="rgba(211,47,47,0.28)" stroke="#B71C1C" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="blood"/>
+
+            <!-- STOMACH -->
+            <path d="M 76 186 C 68 190 64 200 66 212 C 68 224 76 232 88 234
+                     C 100 236 108 230 112 218 C 116 206 112 192 104 186
+                     C 96 180 83 182 76 186 Z"
+                  fill="rgba(249,168,37,0.28)" stroke="#F57F17" stroke-width="1.5"
+                  class="organ-overlay" data-cancer="stomach"/>
+
+            <!-- LIVER -->
+            <path d="M 108 180 C 118 176 134 178 146 186 C 156 194 160 208 158 220
+                     C 156 230 148 236 136 236 C 124 236 114 228 110 216
+                     C 106 204 106 190 108 180 Z"
+                  fill="rgba(121,85,72,0.28)" stroke="#4E342E" stroke-width="1.5"
+                  class="organ-overlay" data-cancer="liver"/>
+
+            <!-- BOWEL -->
+            <path d="M 44 234 C 36 248 36 264 40 278 C 42 288 50 294 60 296
+                     L 140 296 C 150 294 158 288 160 278
+                     C 164 264 164 248 156 234 C 146 240 124 244 100 244
+                     C 76 244 54 240 44 234 Z"
+                  fill="rgba(67,160,71,0.22)" stroke="#2E7D32" stroke-width="1.7"
+                  class="organ-overlay" data-cancer="bowel"/>
+
+            <!-- UTERUS + OVARIES (cervix) -->
+            <path d="M 100 300 C 90 298 82 302 80 312 C 78 322 84 332 100 336
+                     C 116 332 122 322 120 312 C 118 302 110 298 100 300 Z"
+                  fill="rgba(216,27,96,0.28)" stroke="#880E4F" stroke-width="1.8"
+                  class="organ-overlay" data-cancer="cervix"/>
+            <ellipse cx="78"  cy="300" rx="11" ry="9"
+                     fill="rgba(216,27,96,0.22)" stroke="#880E4F" stroke-width="1.5"
+                     class="organ-overlay" data-cancer="cervix"/>
+            <ellipse cx="122" cy="300" rx="11" ry="9"
+                     fill="rgba(216,27,96,0.22)" stroke="#880E4F" stroke-width="1.5"
+                     class="organ-overlay" data-cancer="cervix"/>
+
+            <!-- KIDNEYS -->
+            <path d="M 32 200 C 26 206 24 216 26 226 C 28 234 36 238 44 236
+                     C 50 234 54 226 52 218 C 50 208 42 198 34 198 Z"
+                  fill="rgba(255,143,0,0.26)" stroke="#E65100" stroke-width="1.3"
+                  class="organ-overlay" data-cancer="bowel"/>
+            <path d="M 168 200 C 174 206 176 216 174 226 C 172 234 164 238 156 236
+                     C 150 234 146 226 148 218 C 150 208 158 198 166 198 Z"
+                  fill="rgba(255,143,0,0.26)" stroke="#E65100" stroke-width="1.3"
+                  class="organ-overlay" data-cancer="bowel"/>
+
+            <!-- SKIN -->
+            <rect x="12" y="188" width="13" height="52" rx="6.5"
+                  fill="rgba(220,210,0,0.30)" stroke="#9E9D24" stroke-width="1.4"
+                  class="organ-overlay" data-cancer="skin"/>
+
+            <text x="100" y="482" text-anchor="middle" font-size="9"
+                  font-family="system-ui,sans-serif" fill="#4A7A94" font-weight="600" opacity="0.6">FEMALE</text>
+          </svg>
+
+          <!-- HOTSPOT DOTS overlaid — shared for both figures, repositioned by JS -->
+          <div id="hotspots-male" style="position:absolute;inset:0;pointer-events:none">
+            <button class="hotspot" data-cancer="brain"   style="left:50%;top:7%;pointer-events:auto"  aria-label="Brain cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="mouth"   style="left:66%;top:12%;pointer-events:auto" aria-label="Mouth and throat — click to learn"></button>
+            <button class="hotspot" data-cancer="thyroid" style="left:36%;top:17%;pointer-events:auto" aria-label="Thyroid — click to learn"></button>
+            <button class="hotspot" data-cancer="lung"    style="left:28%;top:28%;pointer-events:auto" aria-label="Lung cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="blood"   style="left:50%;top:28%;pointer-events:auto" aria-label="Blood and lymphatic cancers — click to learn"></button>
+            <button class="hotspot" data-cancer="stomach" style="left:38%;top:36%;pointer-events:auto" aria-label="Stomach cancer — click to learn"></button>
+            <button class="hotspot" data-cancer="liver"   style="left:63%;top:38%;pointer-events:auto" aria-label="Liver and pancreatic cancer — click to learn"></button>
+            <button class="hotspot" data-cancer="bowel"   style="left:50%;top:47%;pointer-events:auto" aria-label="Bowel cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="prostate" style="left:50%;top:55%;pointer-events:auto" aria-label="Prostate cancer — click to learn"></button>
+            <button class="hotspot" data-cancer="skin"    style="left:14%;top:46%;pointer-events:auto" aria-label="Skin cancer — click to learn"></button>
+            <button class="hotspot" data-cancer="breast"  style="left:66%;top:28%;pointer-events:auto" aria-label="Breast cancer — click to learn"></button>
+          </div>
+          <div id="hotspots-female" style="position:absolute;inset:0;pointer-events:none;display:none">
+            <button class="hotspot" data-cancer="brain"   style="left:50%;top:6%;pointer-events:auto"  aria-label="Brain cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="mouth"   style="left:65%;top:11%;pointer-events:auto" aria-label="Mouth and throat — click to learn"></button>
+            <button class="hotspot" data-cancer="thyroid" style="left:36%;top:17%;pointer-events:auto" aria-label="Thyroid — click to learn"></button>
+            <button class="hotspot" data-cancer="breast"  style="left:28%;top:27%;pointer-events:auto" aria-label="Breast cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="lung"    style="left:66%;top:27%;pointer-events:auto" aria-label="Lung cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="blood"   style="left:50%;top:26%;pointer-events:auto" aria-label="Blood and lymphatic cancers — click to learn"></button>
+            <button class="hotspot" data-cancer="stomach" style="left:37%;top:34%;pointer-events:auto" aria-label="Stomach cancer — click to learn"></button>
+            <button class="hotspot" data-cancer="liver"   style="left:63%;top:36%;pointer-events:auto" aria-label="Liver and pancreatic cancer — click to learn"></button>
+            <button class="hotspot" data-cancer="bowel"   style="left:50%;top:44%;pointer-events:auto" aria-label="Bowel cancer — click to learn"><div class="hotspot-pulse"></div></button>
+            <button class="hotspot" data-cancer="cervix"  style="left:50%;top:51%;pointer-events:auto" aria-label="Cervical, womb and ovarian cancers — click to learn"></button>
+            <button class="hotspot" data-cancer="skin"    style="left:14%;top:43%;pointer-events:auto" aria-label="Skin cancer — click to learn"></button>
+          </div>
+
+        </div>
+
+        <!-- Organ colour legend -->
+        <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center">
+          <span style="font-size:.7rem;background:#E3F2FD;color:#1565C0;padding:.35rem .65rem;border-radius:4px;border:1px solid #90CAF9">🫁 Lung</span>
+          <span style="font-size:.7rem;background:#FCE4EC;color:#880E4F;padding:.35rem .65rem;border-radius:4px;border:1px solid #F48FB1">🩷 Breast/Cervix</span>
+          <span style="font-size:.7rem;background:#E8F5E9;color:#1B5E20;padding:.35rem .65rem;border-radius:4px;border:1px solid #A5D6A7">🫃 Bowel</span>
+          <span style="font-size:.7rem;background:#FFF3E0;color:#E65100;padding:.35rem .65rem;border-radius:4px;border:1px solid #FFCC80">🫄 Stomach</span>
+          <span style="font-size:.7rem;background:#EDE7F6;color:#4A148C;padding:.35rem .65rem;border-radius:4px;border:1px solid #CE93D8">🧠 Brain</span>
+          <span style="font-size:.7rem;background:#FFEBEE;color:#B71C1C;padding:.35rem .65rem;border-radius:4px;border:1px solid #EF9A9A">🩸 Blood</span>
+        </div>
+
+        <p class="text-xs text-muted" style="text-align:center;margin-top:.75rem">
+          <span class="en-only">Tap a coloured organ area or a dot to learn more</span>
+          <span class="ta-only ta">ஒரு நிறத்திட்டு அல்லது புள்ளியை தட்டி அறிந்து கொள்ளுங்கள்</span>
+        </p>
+      </div>
+
+      <!-- RIGHT: Info panel -->
+      <div class="info-panel">
+        <div class="info-panel-inner">
+          <!-- Placeholder (shown before selection) -->
+          <div class="info-panel-placeholder" id="panel-placeholder">
+            <div style="font-size:3rem" aria-hidden="true">🫀</div>
+            <h3 class="en-only">Select a body area</h3>
+            <h3 class="ta-only ta" style="font-family:var(--font-ta)">ஒரு உடல் பகுதியை தேர்ந்தெடுங்கள்</h3>
+            <p class="text-sm en-only">Tap any highlighted dot on the diagram, or choose from the list below.</p>
+            <p class="text-sm ta-only ta" style="font-family:var(--font-ta)">வரைபடத்தில் ஒரு புள்ளியை தட்டுங்கள் அல்லது கீழே உள்ள பட்டியலிலிருந்து தேர்ந்தெடுங்கள்.</p>
+          </div>
+
+          <!-- Cancer detail panel (hidden until selection) -->
+          <div id="cancer-detail" hidden>
+            <div class="info-panel-header">
+              <div id="detail-emoji" style="font-size:1.5rem;margin-bottom:var(--sp-1)" aria-hidden="true"></div>
+              <h2 id="detail-title-en" class="en-only" style="color:white;font-size:var(--text-xl)"></h2>
+              <h2 id="detail-title-ta" class="ta-only ta" style="color:rgba(255,255,255,0.9);font-family:var(--font-ta);font-size:var(--text-lg)"></h2>
+            </div>
+            <div class="info-panel-body">
+              <div class="cancer-detail-tabs" role="tablist">
+                <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
+                <button class="tab-btn" data-tab="symptoms" role="tab" aria-selected="false">Symptoms</button>
+                <button class="tab-btn" data-tab="risk" role="tab" aria-selected="false">Risk factors</button>
+                <button class="tab-btn" data-tab="screening" role="tab" aria-selected="false">Screening</button>
+              </div>
+              <div id="tab-overview" class="tab-panel active"></div>
+              <div id="tab-symptoms" class="tab-panel"></div>
+              <div id="tab-risk" class="tab-panel"></div>
+              <div id="tab-screening" class="tab-panel"></div>
+              <div id="detail-source" style="margin-top:var(--sp-5);padding-top:var(--sp-4);border-top:1px solid var(--clr-border)"></div>
+              <div class="review-notice" style="margin-top:var(--sp-3)">⚠️ Awaiting bilingual clinical review — தமிழ் மருத்துவ மதிப்பாய்வு நிலுவையில்</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ACCESSIBLE LIST below map -->
+    <section aria-labelledby="list-heading" style="padding-bottom:var(--sp-12)">
+      <h2 id="list-heading" class="section-title en-only">All cancer types — choose to explore</h2>
+      <p class="section-title-ta ta-only ta">அனைத்து புற்றுநோய் வகைகள் — தேர்ந்தெடுங்கள்</p>
+      <div class="cancer-type-grid" role="list">
+        <!-- Generated by JS -->
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div>Cancer Awareness Prototype · v0.1</div>
+      <a href="../data/sources.json" target="_blank" style="color:rgba(255,255,255,0.5)">Sources</a>
+    </div>
+    <div class="footer-disclaimer">This body map is for educational purposes only. It does not diagnose cancer. If you are concerned about any symptom, please speak with your GP.</div>
+  </div>
+</footer>
+
+<script src="../js/app.js"></script>
+<script>
+/* ============================================================
+   BODY MAP DATA
+   ============================================================ */
+const CANCERS = {
+  brain: {
+    emoji: '🧠',
+    titleEn: 'Brain & CNS cancers',
+    titleTa: 'மூளை மற்றும் நரம்பு மண்டல புற்றுநோய்',
+    overview: {
+      en: 'Brain and central nervous system (CNS) tumours arise from cells in or around the brain and spinal cord. They can be benign (non-cancerous) or malignant (cancerous). Even benign brain tumours can be serious because of their location inside the skull. Brain tumours can occur at any age, including in children.',
+      ta: 'மூளை மற்றும் மத்திய நரம்பு மண்டல கட்டிகள் மூளை அல்லது முதுகுத் தண்டுவட செல்களிலிருந்து தோன்றுகின்றன. இவை பாதிப்பற்றதாகவோ தீங்கானதாகவோ இருக்கலாம். குழந்தைகள் உட்பட எந்த வயதிலும் வரலாம்.'
+    },
+    symptoms: {
+      en: 'Persistent or worsening headaches (especially in the morning), unexplained nausea/vomiting, vision, hearing or speech changes, seizures (fits), weakness or numbness in limbs, personality or memory changes, balance problems.',
+      ta: 'தொடர்ந்த அல்லது மோசமாகும் தலைவலி (குறிப்பாக காலையில்), விளக்கமில்லா குமட்டல்/வாந்தி, பார்வை/கேட்கும்/பேச்சு மாற்றங்கள், வலிப்பு, உடல் பலவீனம், ஆளுமை அல்லது நினைவு மாற்றங்கள்.'
+    },
+    risk: {
+      en: 'Most brain tumours have no known preventable cause. Rare inherited conditions and high-dose radiation to the head increase risk. Mobile phone use has not been shown to cause brain tumours in current evidence.',
+      ta: 'பெரும்பாலான மூளை கட்டிகளுக்கு தவிர்க்கக்கூடிய காரணம் தெரியவில்லை. மரபுரீதியான நிலைகள் மற்றும் அதிக அளவு கதிர்வீச்சு ஆபத்தை அதிகரிக்கும்.'
+    },
+    screening: {
+      en: 'There is no national screening programme for brain tumours in England. If you have concerning symptoms, your GP can refer you for appropriate tests.',
+      ta: 'இங்கிலாந்தில் மூளை கட்டிகளுக்கான தேசிய ஸ்கிரீனிங் திட்டம் இல்லை. கவலைப்படும் அறிகுறிகள் இருந்தால், உங்கள் GP உங்களை சோதனைகளுக்கு பரிந்துரைக்கலாம்.'
+    },
+    source: 'Cancer Research UK, NHS: Brain tumours'
+  },
+  breast: {
+    emoji: '🩷',
+    titleEn: 'Breast cancer',
+    titleTa: 'மார்பக புற்றுநோய்',
+    overview: {
+      en: 'Breast cancer is the most common cancer in the UK. It can affect people of all genders, though it is much more common in women. Most breast cancers are found in women over 50, but younger women — and men — can also be affected. Many breast cancers are found through NHS breast screening or when someone notices a change.',
+      ta: 'மார்பக புற்றுநோய் இங்கிலாந்தில் மிகவும் பொதுவான புற்றுநோய். இது எல்லா பாலினத்தினரையும் பாதிக்கலாம், ஆனால் பெண்களில் மிகவும் அதிகம். பெரும்பாலான மார்பக புற்றுநோய்கள் 50 வயதுக்கு மேல் காணப்படுகின்றன, ஆனால் இளம் பெண்களும் பாதிக்கப்படலாம்.'
+    },
+    symptoms: {
+      en: 'A new lump or thickening in the breast or armpit, change in breast size or shape, dimpling or puckering of the skin, nipple changes (inversion, discharge, rash), redness or rash on breast skin, unexplained pain in breast or armpit. Not all lumps are cancer — but always get checked.',
+      ta: 'மார்பில் அல்லது அக்குளில் புதிய கட்டி அல்லது தடிப்பு, மார்பகத்தின் அளவு அல்லது வடிவ மாற்றம், தோல் குழிவு, காம்பு மாற்றங்கள், தோல் சிவப்பு அல்லது தடிப்பு, விளக்கமில்லா வலி. எல்லா கட்டிகளும் புற்றுநோய் அல்ல — ஆனால் எப்போதும் சோதித்துக்கொள்ளுங்கள்.'
+    },
+    risk: {
+      en: 'Increasing age, being female, dense breast tissue, family history of breast cancer (especially BRCA1/2 gene mutations), personal history of breast cancer, hormone replacement therapy (HRT), being overweight after menopause, alcohol, not having children or having them later in life, not breastfeeding.',
+      ta: 'வயது, பெண் பாலினம், மரபணு மாற்றங்கள் (BRCA1/2), குடும்ப வரலாறு, HRT, அதிக உடல் எடை, மது, தாய்ப்பால் கொடுக்காமை.'
+    },
+    screening: {
+      en: 'NHS breast screening: Women aged 50–70 are routinely invited for a mammogram every 3 years. If you are outside this age range and have concerns, speak with your GP.',
+      ta: 'NHS மார்பக ஸ்கிரீனிங்: 50–70 வயது பெண்கள் ஒவ்வொரு 3 ஆண்டுகளுக்கும் மேமோகிராம் மூலம் ஆய்வு செய்யப்படுவார்கள்.'
+    },
+    source: 'NHS Breast Cancer, Cancer Research UK, CRUK Breast Screening'
+  },
+  bowel: {
+    emoji: '🫁',
+    titleEn: 'Bowel cancer (colorectal)',
+    titleTa: 'குடல் புற்றுநோய்',
+    overview: {
+      en: 'Bowel cancer (also called colorectal cancer) affects the large bowel (colon and rectum). It is one of the most common cancers in the UK, affecting men and women roughly equally. Most cases occur in people over 60, but it can affect younger people. Many cases develop from non-cancerous growths called polyps.',
+      ta: 'குடல் புற்றுநோய் பெரிய குடலை (கோலோன் மற்றும் மலக்குடல்) பாதிக்கிறது. இது இங்கிலாந்தில் மிக பொதுவான புற்றுநோய்களில் ஒன்று.'
+    },
+    symptoms: {
+      en: 'Bleeding from the bottom or blood in stools, a persistent change in bowel habits (more frequent, looser stools) lasting 3 or more weeks, unexplained weight loss, extreme tiredness, pain or lump in the tummy.',
+      ta: 'ஆசனவாயிலிருந்து இரத்தம் அல்லது மலத்தில் இரத்தம், மலம் கழிக்கும் பழக்கத்தில் தொடர் மாற்றம் (3 அல்லது அதிக வாரங்கள்), விளக்கமில்லா எடை இழப்பு, தொடர் சோர்வு, வயிற்றுவலி அல்லது கட்டி.'
+    },
+    risk: {
+      en: 'Age (over 60), family history of bowel cancer, polyps in the bowel, inflammatory bowel disease (IBD), low-fibre diet, processed or red meat, obesity, physical inactivity, alcohol, smoking.',
+      ta: 'வயது (60+), குடும்ப வரலாறு, குடல் வீக்க நோய், குறைந்த நார்ச்சத்து உணவு, பதப்படுத்தப்பட்ட இறைச்சி, உடல் பருமன், மது, புகைபிடித்தல்.'
+    },
+    screening: {
+      en: 'NHS Bowel Cancer Screening: Everyone aged 60–74 in England is sent a bowel cancer screening kit (FIT test) every 2 years. Results are used to decide if further tests are needed.',
+      ta: 'NHS குடல் புற்றுநோய் ஸ்கிரீனிங்: 60–74 வயது அனைவரும் ஒவ்வொரு 2 ஆண்டுகளுக்கும் FIT சோதனை கிட் பெறுவார்கள்.'
+    },
+    source: 'NHS Bowel Cancer, Cancer Research UK'
+  },
+  lung: {
+    emoji: '🫁',
+    titleEn: 'Lung cancer',
+    titleTa: 'நுரையீரல் புற்றுநோய்',
+    overview: {
+      en: 'Lung cancer is one of the most common and serious cancers in the UK. There are two main types: non-small cell lung cancer (more common) and small cell lung cancer. Smoking is the biggest preventable risk factor, but lung cancer can also occur in people who have never smoked.',
+      ta: 'நுரையீரல் புற்றுநோய் இங்கிலாந்தில் மிக பொதுவான மற்றும் தீவிரமான புற்றுநோய்களில் ஒன்று. புகைபிடிக்காதவர்களுக்கும் வரலாம்.'
+    },
+    symptoms: {
+      en: 'A cough that does not go away or gets worse over 3 weeks, coughing up blood, persistent chest infections, chest pain when breathing or coughing, persistent breathlessness, unexplained tiredness or weight loss, hoarse voice.',
+      ta: '3 வாரங்களுக்கு மேல் தொடர்ந்த இருமல், இரத்தம் கக்குதல், தொடர் மார்பு நோய்த்தொற்று, மூச்சு விடும்போது வலி, விளக்கமில்லா சோர்வு அல்லது எடை இழப்பு.'
+    },
+    risk: {
+      en: 'Smoking (biggest risk — accounts for ~72% of lung cancer cases), passive smoking, radon gas exposure, asbestos, air pollution, previous lung disease.',
+      ta: 'புகைபிடிக்கும் பழக்கம் (சுமார் 72% வழக்குகள்), பிறர் புகையில் வாழ்வது, ரேடான் வாயு, ஆஸ்பெஸ்டாஸ், காற்று மாசு.'
+    },
+    screening: {
+      en: 'An NHS lung cancer screening programme (TLHC) is being rolled out for people aged 55–74 who have smoked. Ask your GP if you are eligible.',
+      ta: 'NHS நுரையீரல் ஸ்கிரீனிங் திட்டம் 55–74 வயது புகைத்தவர்களுக்கு பரவி வருகிறது. தகுதி உள்ளதா என உங்கள் GP யிடம் கேளுங்கள்.'
+    },
+    source: 'NHS Lung Cancer, Cancer Research UK'
+  },
+  prostate: {
+    emoji: '🫁',
+    titleEn: 'Prostate & bladder cancer',
+    titleTa: 'புரோஸ்டேட் மற்றும் சிறுநீர்ப்பை புற்றுநோய்',
+    overview: {
+      en: 'Prostate cancer is the most common cancer in men in the UK. It usually develops slowly and many men with prostate cancer have no symptoms for years. Bladder cancer affects the bladder and is more common in men but can affect women. Blood in urine is a key symptom for bladder cancer.',
+      ta: 'புரோஸ்டேட் புற்றுநோய் இங்கிலாந்தில் ஆண்களில் மிகவும் பொதுவான புற்றுநோய். சிறுநீர்ப்பை புற்றுநோய் சிறுநீரில் இரத்தம் கொண்டு தெரியும்.'
+    },
+    symptoms: {
+      en: 'Prostate: needing to urinate more often (especially at night), difficulty starting or stopping, weak or slow flow, feeling of incomplete emptying, blood in urine or semen. Bladder: blood in urine (painless), needing to urinate urgently and frequently.',
+      ta: 'புரோஸ்டேட்: அடிக்கடி சிறுநீர் கழிக்க வேண்டும் (குறிப்பாக இரவில்), தொடங்குவதில் சிரமம், சிறுநீரில் இரத்தம். சிறுநீர்ப்பை: சிறுநீரில் இரத்தம் (வலியற்ற), அடிக்கடி அவசரமாக வேண்டும்.'
+    },
+    risk: {
+      en: 'Prostate: age over 50, being of Black African or Black Caribbean heritage (higher risk), family history. Bladder: smoking (biggest risk), chemical/dye exposure, chronic bladder irritation.',
+      ta: 'புரோஸ்டேட்: 50+ வயது, ஆப்பிரிக்க/கரிபியன் பாரம்பரியம், குடும்ப வரலாறு. சிறுநீர்ப்பை: புகைபிடித்தல், வேதிப்பொருள் வெளிப்பாடு.'
+    },
+    screening: {
+      en: 'There is no national prostate cancer screening programme in England. Men aged 50+ can request a PSA blood test from their GP. The PSA test has limitations — discuss benefits and risks with your GP.',
+      ta: 'இங்கிலாந்தில் புரோஸ்டேட் தேசிய ஸ்கிரீனிங் இல்லை. 50+ ஆண்கள் GP யிடம் PSA இரத்த சோதனை கோரலாம்.'
+    },
+    source: 'NHS Prostate Cancer, Bladder Cancer, Cancer Research UK'
+  },
+  cervix: {
+    emoji: '🫀',
+    titleEn: 'Cervical, womb & ovarian cancers',
+    titleTa: 'கர்ப்பப்பை வாய், கர்ப்பப்பை மற்றும் கருப்பை புற்றுநோய்',
+    overview: {
+      en: 'These are cancers affecting the female reproductive system. Cervical cancer is closely linked to HPV infection and is largely preventable through vaccination and screening. Womb (uterine) cancer is the most common gynaecological cancer in the UK. Ovarian cancer is often called a silent cancer because symptoms can be subtle.',
+      ta: 'இவை பெண் இனப்பெருக்க மண்டலத்தை பாதிக்கும் புற்றுநோய்கள். கர்ப்பப்பை வாய் புற்றுநோய் HPV நோய்த்தொற்றுடன் தொடர்புடையது மற்றும் தடுப்பூசி மூலம் தடுக்கலாம்.'
+    },
+    symptoms: {
+      en: 'Cervical: unusual vaginal bleeding (between periods, after sex, after menopause), unusual discharge. Womb: bleeding after menopause, unusual bleeding between periods. Ovarian: persistent bloating, pelvic pain, feeling full quickly, needing to urinate more often.',
+      ta: 'கர்ப்பப்பை வாய்: அசாதாரண யோனி இரத்தப்போக்கு. கர்ப்பப்பை: மாதவிடாயுக்கு பிறகு இரத்தப்போக்கு. கருப்பை: தொடர் வயிற்று உப்புசம், இடுப்பு வலி, சீக்கிரம் வயிறு நிரம்பும் உணர்வு.'
+    },
+    risk: {
+      en: 'Cervical: HPV infection (nearly all cases), smoking, weakened immune system. Womb: being overweight or obese, taking oestrogen-only HRT, diabetes, never having had children. Ovarian: age, family history (BRCA1/2), endometriosis.',
+      ta: 'கர்ப்பப்பை வாய்: HPV நோய்த்தொற்று. கர்ப்பப்பை: உடல் பருமன், HRT. கருப்பை: வயது, குடும்ப வரலாறு (BRCA1/2).'
+    },
+    screening: {
+      en: 'Cervical screening (smear test): Women aged 25–49 every 3 years; 50–64 every 5 years. HPV vaccination offered to all 11–13 year olds. No national ovarian or womb cancer screening in England.',
+      ta: 'கர்ப்பப்பை வாய் ஸ்கிரீனிங்: 25–49 வயது ஒவ்வொரு 3 ஆண்டுகளுக்கும், 50–64 வயது ஒவ்வொரு 5 ஆண்டுகளுக்கும். HPV தடுப்பூசி 11–13 வயதினருக்கு.'
+    },
+    source: 'NHS Cervical Cancer, Cancer Research UK, NHS HPV Vaccine'
+  },
+  skin: {
+    emoji: '☀️',
+    titleEn: 'Skin cancer',
+    titleTa: 'தோல் புற்றுநோய்',
+    overview: {
+      en: 'Skin cancer is the most common type of cancer in the UK. There are two main types: melanoma (rarer but more serious) and non-melanoma skin cancers (more common, including basal cell and squamous cell carcinomas). Most skin cancers are caused by UV radiation from the sun or sunbeds. Skin cancer can affect any skin tone.',
+      ta: 'தோல் புற்றுநோய் இங்கிலாந்தில் மிக பொதுவான புற்றுநோய். சூரிய UV கதிர்வீச்சால் பெரும்பாலும் உண்டாகிறது. எந்த தோல் நிறத்திலும் வரலாம்.'
+    },
+    symptoms: {
+      en: 'An unusual or changing mole (ABCDE: Asymmetry, Border irregular, Colour uneven, Diameter growing, Evolving/changing), a new lump or sore that does not heal, a patch of skin that is itchy, crusty, or bleeds easily.',
+      ta: 'அசாதாரண அல்லது மாறும் மச்சம் (ABCDE: சமச்சீரற்ற, ஒழுங்கற்ற எல்லை, சீரற்ற நிறம், வளரும் அளவு, மாறும்), ஆறாத கட்டி அல்லது புண்.'
+    },
+    risk: {
+      en: 'UV exposure (sun, sunbeds), fair skin or many moles, family history of melanoma, weakened immune system, previous skin cancer.',
+      ta: 'UV வெளிப்பாடு (சூரியன், சன்பெட்), வெளிர் தோல், பல மச்சங்கள், குடும்ப வரலாறு, நோயெதிர்ப்பு பலவீனம்.'
+    },
+    screening: {
+      en: 'There is no national skin cancer screening programme. Check your skin regularly and report any changing or unusual mole or lesion to your GP promptly.',
+      ta: 'தேசிய தோல் ஸ்கிரீனிங் இல்லை. உங்கள் தோலை தொடர்ந்து சோதித்து, மாறும் மச்சம் இருந்தால் GP யிடம் சொல்லுங்கள்.'
+    },
+    source: 'NHS Skin Cancer, Cancer Research UK'
+  },
+  blood: {
+    emoji: '🩸',
+    titleEn: 'Blood & lymphatic cancers',
+    titleTa: 'ரத்த மற்றும் நிணநீர் புற்றுநோய்கள்',
+    overview: {
+      en: 'Blood cancers (leukaemia, lymphoma, myeloma) affect the blood, bone marrow, lymph nodes, or other parts of the lymphatic and immune systems. They do not usually form solid lumps. These include leukaemia (affects white blood cells), Hodgkin and non-Hodgkin lymphoma (affects lymph nodes), and myeloma (affects plasma cells in bone marrow).',
+      ta: 'ரத்த புற்றுநோய்கள் (லுகேமியா, லிம்போமா, மைலோமா) ரத்தம், எலும்பு மஜ்ஜை, நிணநீர் கணுக்களை பாதிக்கும். இவை திட கட்டிகளை உருவாக்காது.'
+    },
+    symptoms: {
+      en: 'Swollen lymph nodes (glands) in neck, armpits, or groin, unexplained fatigue, unexplained weight loss, fever, night sweats, easy bruising or bleeding, repeated infections, bone pain (myeloma), breathlessness, itchy skin.',
+      ta: 'கழுத்து, அக்குள், இடுப்பில் நிணநீர் கணுக்கள் வீக்கம், விளக்கமில்லா சோர்வு, காய்ச்சல், இரவு வியர்வை, எளிதில் காயம், தொடர் நோய்த்தொற்றுகள்.'
+    },
+    risk: {
+      en: 'Most blood cancers have no single known preventable cause. Risk factors vary by type and include age, family history, certain infections (Epstein-Barr virus for some lymphomas), radiation or chemotherapy treatment for other cancers, and weakened immunity.',
+      ta: 'பெரும்பாலான ரத்த புற்றுநோய்களுக்கு தெரிந்த தடுக்கக்கூடிய காரணம் இல்லை. வயது, குடும்ப வரலாறு, சில நோய்த்தொற்றுகள் ஆபத்தை அதிகரிக்கும்.'
+    },
+    screening: {
+      en: 'There is no national screening programme for blood cancers. If you notice persistent, unexplained symptoms such as swollen glands, fatigue, or night sweats, see your GP.',
+      ta: 'ரத்த புற்றுநோய்களுக்கு தேசிய ஸ்கிரீனிங் இல்லை. வீங்கிய நிணநீர் கணுக்கள், சோர்வு, அல்லது இரவு வியர்வை போன்ற தொடர் அறிகுறிகள் இருந்தால் GP யிடம் பாருங்கள்.'
+    },
+    source: 'NHS Leukaemia, Lymphoma, Myeloma, Cancer Research UK'
+  },
+  stomach: {
+    emoji: '🫃',
+    titleEn: 'Stomach & oesophageal cancer',
+    titleTa: 'வயிறு மற்றும் உணவுக்குழாய் புற்றுநோய்',
+    overview: {
+      en: 'Stomach (gastric) cancer develops in the lining of the stomach. Oesophageal (gullet) cancer develops in the food pipe between the throat and stomach. Both are more common in older adults and in men. Early detection improves treatment options.',
+      ta: 'வயிற்றுப் புற்றுநோய் வயிற்றின் உள் அடுக்கில் உருவாகிறது. உணவுக்குழாய் புற்றுநோய் தொண்டைக்கும் வயிற்றுக்கும் இடையிலான குழாயில் உண்டாகிறது.'
+    },
+    symptoms: {
+      en: 'Persistent indigestion, heartburn, or acid reflux, difficulty swallowing, feeling full quickly, unexplained weight loss, nausea, vomiting (sometimes with blood), stomach pain.',
+      ta: 'தொடர் அஜீரண கோளாறு, இரைப்பை எரிச்சல், விழுங்குவதில் சிரமம், சீக்கிரம் வயிறு நிரம்பும் உணர்வு, விளக்கமில்லா எடை இழப்பு, வாந்தி.'
+    },
+    risk: {
+      en: 'H. pylori bacterial infection (stomach), smoking, alcohol, being overweight (oesophageal), long-term acid reflux (Barretts oesophagus), processed or salty food, family history.',
+      ta: 'H. pylori நோய்த்தொற்று (வயிறு), புகைபிடித்தல், மது, அதிக உடல் எடை, நீண்டகால இரைப்பை எரிச்சல், பதப்படுத்தப்பட்ட/உப்பு உணவு.'
+    },
+    screening: {
+      en: 'No national screening in England. Persistent indigestion or swallowing difficulties should be assessed by a GP, especially if over 55 or if you are losing weight.',
+      ta: 'இங்கிலாந்தில் தேசிய ஸ்கிரீனிங் இல்லை. 55+ வயது மற்றும் தொடர் அஜீரணம் அல்லது விழுங்குவதில் சிரமம் இருந்தால் GP யிடம் பாருங்கள்.'
+    },
+    source: 'NHS Stomach Cancer, NHS Oesophageal Cancer, Cancer Research UK'
+  },
+  liver: {
+    emoji: '🫀',
+    titleEn: 'Liver & pancreatic cancer',
+    titleTa: 'கல்லீரல் மற்றும் கணையப் புற்றுநோய்',
+    overview: {
+      en: 'Liver cancer may start in the liver itself (primary) or spread to the liver from elsewhere (secondary/metastatic). Pancreatic cancer starts in the pancreas — a gland behind the stomach. Pancreatic cancer often has few symptoms until it has grown.',
+      ta: 'கல்லீரல் புற்றுநோய் கல்லீரலிலேயே தொடங்கலாம் அல்லது வேறு இடத்திலிருந்து பரவலாம். கணையப் புற்றுநோய் வயிற்றுக்கு பின்னால் உள்ள கணையத்தில் தொடங்குகிறது.'
+    },
+    symptoms: {
+      en: 'Liver: loss of appetite, weight loss, feeling full quickly, nausea, jaundice (yellow skin/eyes), swollen tummy. Pancreatic: jaundice (most common first sign), tummy or back pain, unexplained weight loss, pale oily stools, new-onset diabetes.',
+      ta: 'கல்லீரல்: பசியின்மை, எடை இழப்பு, மஞ்சள் காமாலை. கணையம்: மஞ்சள் காமாலை (முதல் அறிகுறி), வயிற்று/முதுகு வலி, விளக்கமில்லா எடை இழப்பு.'
+    },
+    risk: {
+      en: 'Liver: chronic hepatitis B or C infection, alcohol, cirrhosis, obesity, diabetes. Pancreatic: smoking, diabetes, pancreatitis, obesity, family history.',
+      ta: 'கல்லீரல்: நாள்பட்ட ஹெபடைடிஸ் B/C, மது, நிரோஷிஸ். கணையம்: புகைபிடித்தல், நீரிழிவு நோய், குடும்ப வரலாறு.'
+    },
+    screening: {
+      en: 'People with cirrhosis may have regular liver scans to detect liver cancer early. No national pancreatic cancer screening. Hepatitis B vaccination helps prevent liver cancer.',
+      ta: 'நிரோஷிஸ் உள்ளவர்களுக்கு தொடர் கல்லீரல் ஸ்கேன். கணையத்திற்கு தேசிய ஸ்கிரீனிங் இல்லை. ஹெபடைடிஸ் B தடுப்பூசி கல்லீரல் புற்றுநோயை தடுக்க உதவும்.'
+    },
+    source: 'NHS Liver Cancer, Pancreatic Cancer UK, Cancer Research UK'
+  },
+  mouth: {
+    emoji: '👄',
+    titleEn: 'Mouth, throat & head/neck cancers',
+    titleTa: 'வாய், தொண்டை மற்றும் தலை/கழுத்து புற்றுநோய்கள்',
+    overview: {
+      en: 'Head and neck cancers include cancers of the mouth, tongue, lips, throat (pharynx and larynx), salivary glands, and nose. They are twice as common in men as in women. Chewing tobacco, betel nut (areca nut), and alcohol significantly increase risk. These cancers are often preventable.',
+      ta: 'தலை மற்றும் கழுத்து புற்றுநோய்களில் வாய், நாக்கு, உதடுகள், தொண்டை, மற்றும் மூக்கு புற்றுநோய்கள் அடங்கும். புகையிலை, வெற்றிலை பாக்கு, மற்றும் மது குறிப்பிடத்தக்க ஆபத்தை அதிகரிக்கும்.'
+    },
+    symptoms: {
+      en: 'An ulcer or sore in the mouth that does not heal in 3 weeks, red or white patches inside the mouth, an unexplained lump or thickening in the mouth, neck or throat, difficulty swallowing or speaking, persistent hoarse voice, persistent pain in mouth or throat.',
+      ta: '3 வாரங்களில் ஆறாத வாயில் புண், வாயில் சிவப்பு அல்லது வெள்ளை திட்டுகள், கழுத்தில் விளக்கமில்லா கட்டி, விழுங்குவதில் சிரமம், தொடர்ந்த கரகரப்பான குரல்.'
+    },
+    risk: {
+      en: 'Smoking and smokeless tobacco (biggest risk), areca nut/betel nut products (significant risk — IARC Group 1 carcinogen), alcohol (risk multiplies when combined with tobacco), HPV infection (oropharyngeal cancers), poor oral health.',
+      ta: 'புகையிலை மற்றும் புகையில்லா புகையிலை (மிகப்பெரிய ஆபத்து), வெற்றிலை பாக்கு (குறிப்பிடத்தக்க ஆபத்து — IARC குழு 1), மது, HPV நோய்த்தொற்று.'
+    },
+    screening: {
+      en: 'Dentists carry out oral cancer checks during routine appointments — attend regular dental check-ups. No national mouth cancer screening programme, but high-risk individuals can be referred by their dentist or GP.',
+      ta: 'பல் மருத்துவர்கள் வழக்கமான சோதனையின்போது வாய் புற்றுநோய் பரிசோதனை செய்வார்கள். தொடர்ந்து பல் மருத்துவரை சந்தியுங்கள்.'
+    },
+    source: 'Cancer Research UK, NHS Head and Neck Cancer, IARC Areca Nut Monograph'
+  },
+  thyroid: {
+    emoji: '🫁',
+    titleEn: 'Thyroid cancer',
+    titleTa: 'தைராய்டு புற்றுநோய்',
+    overview: {
+      en: 'Thyroid cancer is a cancer of the thyroid gland, found in the front of the neck. It is more common in women and in younger adults. Most thyroid cancers (papillary and follicular types) grow slowly and respond well to treatment.',
+      ta: 'தைராய்டு புற்றுநோய் கழுத்தின் முன்பகுதியில் உள்ள தைராய்டு சுரப்பியில் உண்டாகிறது. பெண்களிலும் இளைஞர்களிலும் அதிகம் காணப்படுகிறது.'
+    },
+    symptoms: {
+      en: 'A painless lump or swelling in the front of the neck, swollen lymph nodes in the neck, unexplained hoarseness or voice changes, difficulty swallowing or breathing.',
+      ta: 'கழுத்தின் முன்பகுதியில் வலியற்ற கட்டி அல்லது வீக்கம், கழுத்தில் நிணநீர் கணு வீக்கம், விளக்கமில்லா கரகரப்பு, விழுங்குவதில் சிரமம்.'
+    },
+    risk: {
+      en: 'Being female, previous radiation to head/neck, family history of thyroid cancer or related genetic conditions.',
+      ta: 'பெண் பாலினம், தலை/கழுத்துக்கு முந்தைய கதிர்வீச்சு, குடும்ப வரலாறு.'
+    },
+    screening: {
+      en: 'No national screening in England. If you notice a persistent lump in your neck, see your GP.',
+      ta: 'இங்கிலாந்தில் தேசிய ஸ்கிரீனிங் இல்லை. கழுத்தில் தொடர் கட்டி இருந்தால் GP யிடம் பாருங்கள்.'
+    },
+    source: 'NHS Thyroid Cancer, Cancer Research UK'
+  }
+};
+
+/* ============================================================
+   BODY MAP INTERACTION
+   ============================================================ */
+function showCancerInfo(key) {
+  const data = CANCERS[key];
+  if (!data) return;
+
+  document.getElementById('panel-placeholder').hidden = true;
+  const detail = document.getElementById('cancer-detail');
+  detail.hidden = false;
+
+  document.getElementById('detail-emoji').textContent = data.emoji;
+  document.getElementById('detail-title-en').textContent = data.titleEn;
+  document.getElementById('detail-title-ta').textContent = data.titleTa;
+
+  document.getElementById('tab-overview').innerHTML =
+    `<p class="en-only text-sm">${data.overview.en}</p>
+     <p class="ta-only ta text-sm" style="font-family:var(--font-ta);margin-top:var(--sp-3)">${data.overview.ta}</p>`;
+
+  document.getElementById('tab-symptoms').innerHTML =
+    `<p class="en-only text-sm"><strong>Symptoms to know:</strong> ${data.symptoms.en}</p>
+     <p class="ta-only ta text-sm" style="font-family:var(--font-ta);margin-top:var(--sp-3)"><strong>அறிகுறிகள்:</strong> ${data.symptoms.ta}</p>
+     <div class="info-box info-box-urgent" style="margin-top:var(--sp-4)">
+       <p class="text-sm en-only"><strong>If you are concerned about any symptom, see your GP. You do not need to wait.</strong></p>
+       <p class="text-sm ta-only ta" style="font-family:var(--font-ta)"><strong>எந்த அறிகுறியிலும் கவலை இருந்தால், GP யிடம் பாருங்கள். காத்திருக்க வேண்டியதில்லை.</strong></p>
+     </div>`;
+
+  document.getElementById('tab-risk').innerHTML =
+    `<p class="en-only text-sm"><strong>Risk factors:</strong> ${data.risk.en}</p>
+     <p class="ta-only ta text-sm" style="font-family:var(--font-ta);margin-top:var(--sp-3)"><strong>ஆபத்து காரணிகள்:</strong> ${data.risk.ta}</p>
+     <p class="text-xs text-muted en-only" style="margin-top:var(--sp-3)">Having a risk factor does not mean you will get this cancer. Many people develop cancer with no known risk factors.</p>
+     <p class="text-xs ta-only ta" style="margin-top:var(--sp-3);font-family:var(--font-ta);color:var(--clr-text-muted)">ஆபத்து காரணி இருந்தாலும் நிச்சயமாக வரும் என்று அர்த்தமில்லை.</p>`;
+
+  document.getElementById('tab-screening').innerHTML =
+    `<p class="en-only text-sm"><strong>Screening (England):</strong> ${data.screening.en}</p>
+     <p class="ta-only ta text-sm" style="font-family:var(--font-ta);margin-top:var(--sp-3)"><strong>ஸ்கிரீனிங் (இங்கிலாந்து):</strong> ${data.screening.ta}</p>
+     <p class="text-xs text-muted en-only" style="margin-top:var(--sp-3)">Screening information is for England only. Rules differ in Scotland, Wales, and Northern Ireland.</p>`;
+
+  document.getElementById('detail-source').innerHTML =
+    `<p class="text-xs text-muted">📄 Sources: ${data.source}</p>`;
+
+  // Apply language visibility to new content
+  const mode = document.documentElement.dataset.lang || 'both';
+  document.documentElement.dataset.lang = mode;
+
+  // Scroll to info panel on mobile
+  if (window.innerWidth < 768) {
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Activate hotspot
+  document.querySelectorAll('.hotspot').forEach(h => h.classList.toggle('active', h.dataset.cancer === key));
+  document.querySelectorAll('.type-chip-btn').forEach(b => b.classList.toggle('active', b.dataset.cancer === key));
+}
+
+// Gender toggle
+function setFigure(gender) {
+  const isMale = gender === 'male';
+  document.getElementById('figure-male').style.display = isMale ? '' : 'none';
+  document.getElementById('figure-female').style.display = isMale ? 'none' : '';
+  document.getElementById('hotspots-male').style.display = isMale ? '' : 'none';
+  document.getElementById('hotspots-female').style.display = isMale ? 'none' : '';
+  document.getElementById('toggle-male').style.background = isMale ? '#0D6B6E' : 'white';
+  document.getElementById('toggle-male').style.color = isMale ? 'white' : '#0D6B6E';
+  document.getElementById('toggle-female').style.background = isMale ? 'white' : '#0D6B6E';
+  document.getElementById('toggle-female').style.color = isMale ? '#0D6B6E' : 'white';
+  // Re-bind hotspot events for newly shown set
+  bindHotspots();
+}
+
+function bindHotspots() {
+  document.querySelectorAll('.hotspot').forEach(btn => {
+    btn.onclick = () => showCancerInfo(btn.dataset.cancer);
+  });
+  // Also bind organ overlay SVG regions
+  document.querySelectorAll('.organ-overlay').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.onclick = () => showCancerInfo(el.dataset.cancer);
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', el.dataset.cancer + ' — click to learn');
+    el.onmouseenter = function() { this.setAttribute('opacity', '0.85'); this.style.filter = 'brightness(1.2)'; };
+    el.onmouseleave = function() { this.removeAttribute('opacity'); this.style.filter = ''; };
+  });
+}
+
+// Tab switching
+document.addEventListener('click', e => {
+  const tab = e.target.closest('.tab-btn');
+  if (!tab) return;
+  const name = tab.dataset.tab;
+  document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  tab.setAttribute('aria-selected', 'true');
+  document.getElementById('tab-' + name).classList.add('active');
+});
+
+// Hotspot click — handled via bindHotspots()
+bindHotspots(); // initial bind
+
+// Build accessible list
+const grid = document.querySelector('.cancer-type-grid');
+const emojiMap = { brain:'🧠',breast:'🩷',bowel:'🫁',lung:'🫁',prostate:'🫁',cervix:'🫀',skin:'☀️',blood:'🩸',stomach:'🫃',liver:'🫀',mouth:'👄',thyroid:'🫁' };
+Object.entries(CANCERS).forEach(([key, data]) => {
+  const btn = document.createElement('button');
+  btn.className = 'type-chip-btn';
+  btn.dataset.cancer = key;
+  btn.setAttribute('role', 'listitem');
+  btn.innerHTML = `<span aria-hidden="true">${data.emoji}</span>
+    <span>
+      <span class="en-only" style="display:block;font-size:var(--text-sm);font-weight:500">${data.titleEn}</span>
+      <span class="ta-only ta" style="display:block;font-size:var(--text-xs);font-family:var(--font-ta);color:var(--clr-text-muted)">${data.titleTa}</span>
+    </span>`;
+  btn.addEventListener('click', () => showCancerInfo(key));
+  grid.appendChild(btn);
+});
+</script>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-bottom-nav" aria-label="Quick navigation">
+  <div class="mobile-bottom-nav-inner">
+    <a href="../index.html" class="mobile-nav-item" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="body-map.html" class="mobile-nav-item active" aria-label="Body map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M12 9v6m-4 3h8"/></svg>
+      <span>Body</span>
+    </a>
+    <a href="symptoms.html" class="mobile-nav-item" aria-label="Symptoms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg>
+      <span>Symptoms</span>
+    </a>
+    <a href="ask.html" class="mobile-nav-item" aria-label="Ask">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Ask</span>
+    </a>
+  </div>
+</nav>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="both" data-text-size="normal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glossary / சொற்களஞ்சியம் — Cancer Awareness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="prototype-notice" role="banner">
+  🔒 Prototype — not for public release. Medical content awaiting clinical and bilingual review.
+  | 🔒 முன்மாதிரி — பொது வெளியீட்டிற்காக அல்ல. மருத்துவ உள்ளடக்கம் மதிப்பாய்வுக்காக காத்திருக்கிறது.
+</div>
+
+<header class="site-header" role="banner">
+  <a href="../index.html" class="logo-link" aria-label="Cancer Awareness — Home">
+    <span class="logo-mark" aria-hidden="true">◎</span>
+    <span class="logo-en">Cancer Awareness</span>
+    <span class="logo-ta ta-only">புற்றுநோய் விழிப்புணர்வு</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <ul class="nav-links" role="list">
+      <li><a href="../pages/understand.html"><span class="en-only">Understand</span><span class="ta-only">புரிந்துகொள்</span></a></li>
+      <li><a href="../pages/body-map.html"><span class="en-only">Body Map</span><span class="ta-only">உடல் வரைபடம்</span></a></li>
+      <li><a href="../pages/symptoms.html"><span class="en-only">Symptoms</span><span class="ta-only">அறிகுறிகள்</span></a></li>
+      <li><a href="../pages/risk.html"><span class="en-only">Reduce Risk</span><span class="ta-only">அபாயம் குறைக்க</span></a></li>
+      <li><a href="../pages/screening.html"><span class="en-only">Screening</span><span class="ta-only">பரிசோதனை</span></a></li>
+      <li><a href="../pages/ask.html"><span class="en-only">Ask</span><span class="ta-only">கேள்</span></a></li>
+    </ul>
+  </nav>
+  <div class="header-controls">
+    <div class="lang-switcher" role="group" aria-label="Language / மொழி">
+      <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      <button class="lang-btn" data-lang="both" aria-pressed="true">EN+தமிழ்</button>
+      <button class="lang-btn" data-lang="ta" aria-pressed="false">தமிழ்</button>
+    </div>
+    <button class="text-size-btn" id="text-size-btn" aria-label="Increase text size">A+</button>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">☰</button>
+  </div>
+</header>
+
+<main id="main-content">
+
+<div class="page-hero" style="background:linear-gradient(135deg,#0D6B6E 0%,#085557 100%);color:white;padding:3rem 2rem;text-align:center">
+  <div class="bilingual-pair" style="max-width:700px;margin:0 auto">
+    <div class="bilingual-en">
+      <h1 style="font-size:2rem;margin-bottom:.75rem">Glossary</h1>
+      <p style="font-size:1.1rem;opacity:.9">Medical terms explained in plain English</p>
+    </div>
+    <div class="bilingual-ta">
+      <h1 style="font-size:2rem;margin-bottom:.75rem;font-family:var(--font-ta)">சொற்களஞ்சியம்</h1>
+      <p style="font-size:1.1rem;opacity:.9;font-family:var(--font-ta)">எளிய தமிழில் விளக்கப்பட்ட மருத்துவ சொற்கள்</p>
+    </div>
+  </div>
+</div>
+
+<!-- Search & filter -->
+<div style="max-width:900px;margin:2rem auto;padding:0 1.5rem">
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem">
+    <input type="search" id="glossary-search" placeholder="Search terms / சொற்களை தேடுங்கள்…"
+      aria-label="Search glossary" autocomplete="off"
+      style="flex:1;min-width:200px;font-size:1rem;padding:.6rem 1rem;border:2px solid #DEE2E6;border-radius:8px;font-family:inherit">
+    <div role="group" aria-label="Filter by letter">
+      <div id="alpha-filter" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
+    </div>
+  </div>
+
+  <div class="review-notice" role="note" style="margin-bottom:2rem">
+    ⚠️ <strong>Awaiting bilingual clinical review.</strong>
+    Tamil translations are prototype drafts and must be reviewed by a bilingual clinician and Tamil language reviewer before public release.
+  </div>
+
+  <div id="glossary-list" role="list" aria-live="polite" aria-label="Glossary terms"></div>
+  <p id="no-results" style="display:none;text-align:center;color:#6B7280;padding:2rem">
+    No matching terms found. / பொருந்தும் சொற்கள் எதுவும் இல்லை.
+  </p>
+</div>
+
+<div style="max-width:900px;margin:0 auto 3rem;padding:0 1.5rem">
+  <div class="source-citation">
+    <strong>Sources:</strong>
+    NHS England (nhs.uk), Cancer Research UK (cancerresearchuk.org), Macmillan Cancer Support (macmillan.org.uk).
+    Terms are explained for educational purposes and are not medical advice.
+    | <strong>ஆதாரங்கள்:</strong> சொற்களஞ்சியம் கல்வி நோக்கங்களுக்காக மட்டுமே — மருத்துவ ஆலோசனை அல்ல.
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="en-only">This prototype is for private review only. It is not an officially endorsed service.</p>
+    <p class="ta-only" lang="ta">இந்த முன்மாதிரி தனியார் மதிப்பாய்விற்காக மட்டுமே. இது அதிகாரப்பூர்வமாக அங்கீகரிக்கப்பட்ட சேவை அல்ல.</p>
+    <p><strong>Emergencies:</strong> Call 999 or go to A&amp;E. | <strong>அவசரநிலைகள்:</strong> 999 அழைக்கவும்.</p>
+    <nav aria-label="Footer navigation">
+      <a href="../index.html">Home</a> · <a href="understand.html">Learn</a> · <a href="ask.html">Ask</a> · <a href="../review/dashboard.html">Review Dashboard</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../js/app.js"></script>
+<script>
+// ---- Glossary data -------------------------------------------------------
+const TERMS = [
+  {
+    en:'Benign',ta:'வீரியமற்றது (veeriyamatradu)',
+    defEn:'A growth or tumour that is not cancerous. Benign tumours do not invade nearby tissue or spread to other parts of the body. They are usually not life-threatening, though some may need treatment.',
+    defTa:'புற்றுநோயல்லாத வளர்ச்சி அல்லது கட்டி. வீரியமற்ற கட்டிகள் அருகிலுள்ள திசுக்களை ஆக்கிரமிக்காது அல்லது உடலின் மற்ற பகுதிகளுக்கு பரவாது.'
+  },
+  {
+    en:'Biopsy',ta:'திசு மாதிரி பரிசோதனை (tigu maadiri pariisoddanai)',
+    defEn:'A procedure where a small sample of tissue is taken from the body and examined under a microscope. Used to find out if cells are cancerous.',
+    defTa:'உடலிலிருந்து ஒரு சிறிய திசு மாதிரி எடுக்கப்பட்டு நுண்ணோக்கியின் கீழ் ஆய்வு செய்யப்படும் நடைமுறை. செல்கள் புற்றுநோயாக இருக்கிறதா என்று கண்டறிய பயன்படுகிறது.'
+  },
+  {
+    en:'Carcinogen',ta:'புற்றுநோய் உருவாக்கி (purrunooy uruvaaEki)',
+    defEn:'A substance, agent, or exposure that can cause cancer. Examples include tobacco smoke, UV radiation, and certain chemicals. Being exposed to a carcinogen does not always mean cancer will develop.',
+    defTa:'புற்றுநோயை ஏற்படுத்தக்கூடிய ஒரு பொருள், காரணி அல்லது வெளிப்பாடு. புகையிலை புகை, UV கதிர்வீச்சு மற்றும் சில இரசாயனங்கள் எடுத்துக்காட்டுகள். ஒரு புற்றுநோய் உருவாக்கிக்கு வெளிப்பட்டாலும் எப்போதும் புற்றுநோய் உருவாகும் என்று அர்த்தமில்லை.'
+  },
+  {
+    en:'Chemotherapy',ta:'வேதி சிகிச்சை (veidhi sigitchai)',
+    defEn:'Treatment using medicines (drugs) to kill or slow the growth of cancer cells. It can be given as tablets, injections, or by a drip. It may cause side effects.',
+    defTa:'புற்றுநோய் செல்களை அழிக்க அல்லது அவற்றின் வளர்ச்சியை மெதுவாக்க மருந்துகளை பயன்படுத்தும் சிகிச்சை. மாத்திரைகள், ஊசி அல்லது சொட்டு மூலம் வழங்கப்படலாம்.'
+  },
+  {
+    en:'CT scan (Computed Tomography)',ta:'CT ஸ்கேன் (CT skæn)',
+    defEn:'An X-ray scan that takes detailed cross-sectional pictures of the inside of the body. Used to look for tumours, check if cancer has spread, and plan treatment.',
+    defTa:'உடலின் உள்ளே விரிவான குறுக்குவெட்டு படங்களை எடுக்கும் X-கதிர் ஸ்கேன். கட்டிகளை தேட, புற்றுநோய் பரவியிருக்கிறதா என்று சரிபார்க்க மற்றும் சிகிச்சையை திட்டமிட பயன்படுகிறது.'
+  },
+  {
+    en:'Diagnosis',ta:'நோய் கண்டறிதல் (nooy kandaridal)',
+    defEn:'The process of finding out what illness or condition a person has, based on symptoms, tests, and examinations. A diagnosis is made by a doctor.',
+    defTa:'அறிகுறிகள், சோதனைகள் மற்றும் பரிசோதனைகளின் அடிப்படையில் ஒருவருக்கு என்ன நோய் அல்லது நிலை உள்ளது என்பதை கண்டறியும் செயல்முறை.'
+  },
+  {
+    en:'Endoscopy',ta:'உள்நோக்கி பரிசோதனை (ulnooki pariisoddanai)',
+    defEn:'A procedure in which a thin, flexible tube with a camera is passed into the body — usually through the mouth or bottom — to look inside the digestive system.',
+    defTa:'ஒரு மெல்லிய, நெகிழ்வான கேமரா குழாய் உடலுக்குள் — பொதுவாக வாய் அல்லது குதம் வழியாக — செலுத்தப்பட்டு செரிமான மண்டலத்தை உள்ளிருந்து பார்க்கும் நடைமுறை.'
+  },
+  {
+    en:'FIT test (Faecal Immunochemical Test)',ta:'FIT சோதனை',
+    defEn:'A bowel cancer screening test that checks for tiny traces of blood in a stool (poo) sample. Done at home using a kit sent in the post. Used in England for people aged 60–74.',
+    defTa:'மலத்தில் மிகச்சிறிய இரத்த흔적களை சரிபார்க்கும் குடல் புற்றுநோய் பரிசோதனை. வீட்டிலேயே அஞ்சலில் அனுப்பப்பட்ட கிட் பயன்படுத்தி செய்யப்படுகிறது. இங்கிலாந்தில் 60–74 வயதுடையவர்களுக்கு பயன்படுகிறது.'
+  },
+  {
+    en:'HPV (Human Papillomavirus)',ta:'HPV (மனித பாப்பிலோமா வைரஸ்)',
+    defEn:'A common viral infection. Some types of HPV can cause cervical cancer and other cancers. An HPV vaccine is available on the NHS for young people.',
+    defTa:'ஒரு பொதுவான வைரஸ் தொற்று. சில வகை HPV கர்ப்பப்பை வாய் புற்றுநோய் மற்றும் பிற புற்றுநோய்களை ஏற்படுத்தலாம். இளைஞர்களுக்கு NHS இல் HPV தடுப்பூசி உள்ளது.'
+  },
+  {
+    en:'IARC (International Agency for Research on Cancer)',ta:'IARC (சர்வதேச புற்றுநோய் ஆராய்ச்சி நிறுவனம்)',
+    defEn:'Part of the World Health Organization. IARC classifies substances and exposures by their cancer risk. Group 1 means the substance is a known human carcinogen.',
+    defTa:'உலக சுகாதார நிறுவனத்தின் ஒரு பகுதி. IARC பொருட்கள் மற்றும் வெளிப்பாடுகளை அவற்றின் புற்றுநோய் அபாயத்தால் வகைப்படுத்துகிறது. குழு 1 என்பது அந்த பொருள் மனிதர்களுக்கு தெரிந்த புற்றுநோய் உருவாக்கி என்று அர்த்தம்.'
+  },
+  {
+    en:'Lymph nodes',ta:'நிணநீர் முனைகள் (ninaneer munaihal)',
+    defEn:'Small glands found throughout the body that are part of the immune system. Cancer can sometimes spread to lymph nodes. Doctors often check them to see if cancer has spread.',
+    defTa:'நோய் எதிர்ப்பு மண்டலத்தின் ஒரு பகுதியாக உடல் முழுவதும் காணப்படும் சிறிய சுரப்பிகள். புற்றுநோய் சில நேரங்களில் நிணநீர் முனைகளுக்கு பரவலாம்.'
+  },
+  {
+    en:'Malignant',ta:'வீரியமுள்ளது (veeriyamulladhu)',
+    defEn:'Describes a tumour or growth that is cancerous. Malignant tumours can invade nearby tissues and spread to other parts of the body.',
+    defTa:'புற்றுநோயாக இருக்கும் கட்டி அல்லது வளர்ச்சியை விவரிக்கிறது. வீரியமுள்ள கட்டிகள் அருகிலுள்ள திசுக்களை ஆக்கிரமித்து உடலின் மற்ற பகுதிகளுக்கு பரவலாம்.'
+  },
+  {
+    en:'Mammogram',ta:'மார்பக X-கதிர் படம் (maarbaga X-kadir padam)',
+    defEn:'An X-ray of the breast used to detect changes that might be cancer. Used in breast cancer screening in England for women aged 50–70, every three years.',
+    defTa:'மார்பகத்தின் X-கதிர் படம், புற்றுநோயாக இருக்கக்கூடிய மாற்றங்களை கண்டறிய பயன்படுகிறது. இங்கிலாந்தில் 50–70 வயது பெண்களுக்கு மூன்று வருடங்களுக்கு ஒருமுறை பயன்படுகிறது.'
+  },
+  {
+    en:'Metastasis',ta:'புற்றுநோய் பரவல் (purrunooy paravaL)',
+    defEn:'The spread of cancer cells from where the cancer first started to another part of the body, usually through the bloodstream or lymphatic system.',
+    defTa:'புற்றுநோய் முதலில் தொடங்கிய இடத்திலிருந்து உடலின் மற்றொரு பகுதிக்கு — பொதுவாக இரத்த ஓட்டம் அல்லது நிணநீர் மண்டலம் வழியாக — புற்றுநோய் செல்கள் பரவுவது.'
+  },
+  {
+    en:'MRI scan (Magnetic Resonance Imaging)',ta:'MRI ஸ்கேன்',
+    defEn:'A type of scan that uses strong magnets and radio waves — not X-rays — to create detailed images of inside the body. Often used to look at soft tissues.',
+    defTa:'X-கதிர்கள் அல்லாமல் வலிமையான காந்தங்கள் மற்றும் வானொலி அலைகளை பயன்படுத்தி உடலின் உள்ளே விரிவான படங்களை உருவாக்கும் ஒரு வகை ஸ்கேன். பெரும்பாலும் மென்மையான திசுக்களை பார்க்க பயன்படுகிறது.'
+  },
+  {
+    en:'Oncologist',ta:'புற்றுநோய் மருத்துவர் (purrunooy maruddhuvar)',
+    defEn:'A doctor who specialises in diagnosing and treating cancer. Medical oncologists usually manage drug treatment; clinical oncologists also use radiotherapy.',
+    defTa:'புற்றுநோயை கண்டறிவதிலும் சிகிச்சையிலும் நிபுணத்துவம் பெற்ற மருத்துவர். மருத்துவ புற்றுநோய் மருத்துவர்கள் பொதுவாக மருந்து சிகிச்சையை நிர்வகிக்கின்றனர்.'
+  },
+  {
+    en:'PET scan (Positron Emission Tomography)',ta:'PET ஸ்கேன்',
+    defEn:'A type of scan that uses a small amount of radioactive substance to show how tissues and organs are working. Often combined with a CT scan (PET-CT) in cancer care.',
+    defTa:'திசுக்கள் மற்றும் உறுப்புகள் எவ்வாறு செயல்படுகின்றன என்பதை காட்ட ஒரு சிறிய அளவு கதிரியக்க பொருளை பயன்படுத்தும் ஒரு வகை ஸ்கேன்.'
+  },
+  {
+    en:'Radiotherapy',ta:'கதிர்வீச்சு சிகிச்சை (kadirveetcchu sigitchai)',
+    defEn:'Treatment that uses high-energy X-rays or other radiation to kill or damage cancer cells. Can be given externally (from outside the body) or internally (from a source inside the body).',
+    defTa:'புற்றுநோய் செல்களை அழிக்க அல்லது சேதப்படுத்த அதிக-ஆற்றல் X-கதிர்கள் அல்லது பிற கதிர்வீச்சை பயன்படுத்தும் சிகிச்சை.'
+  },
+  {
+    en:'Referral (Two-Week Wait)',ta:'பரிந்துரை (இரண்டு வார காத்திருப்பு)',
+    defEn:'When a GP suspects cancer, they can make an urgent referral to a specialist. Under NHS guidelines, the specialist should see the patient within two weeks. This is sometimes called a "two-week wait" or 2WW referral.',
+    defTa:'ஒரு GP புற்றுநோயை சந்தேகிக்கும்போது, அவர் ஒரு நிபுணரிடம் அவசர பரிந்துரை செய்யலாம். NHS வழிகாட்டுதல்களின் படி, நிபுணர் இரண்டு வாரங்களுக்குள் நோயாளியை பார்க்க வேண்டும்.'
+  },
+  {
+    en:'Screening',ta:'சோதனை திட்டம் (soddanai tittam)',
+    defEn:'Checking for cancer or pre-cancer in people who do not have symptoms, using tests such as mammograms or stool tests. A normal screening result does not rule out all cancers; anyone with symptoms should still see their GP.',
+    defTa:'மார்பக X-கதிர் அல்லது மல சோதனை போன்ற சோதனைகளைப் பயன்படுத்தி, அறிகுறிகள் இல்லாத நபர்களில் புற்றுநோய் அல்லது முன்-புற்றுநோயை சரிபார்த்தல். இயல்பான சோதனை முடிவு அனைத்து புற்றுநோய்களையும் நிராகரிக்காது.'
+  },
+  {
+    en:'Tumour',ta:'கட்டி (katti)',
+    defEn:'An abnormal lump or mass of tissue. Tumours can be benign (non-cancerous) or malignant (cancerous). Not all cancers form solid tumours; blood cancers such as leukaemia usually do not.',
+    defTa:'திசுவின் அசாதாரண கட்டி அல்லது வெகுஜன. கட்டிகள் வீரியமற்றவையாக (புற்றுநோயல்லாத) அல்லது வீரியமுள்ளவையாக (புற்றுநோய்) இருக்கலாம். அனைத்து புற்றுநோய்களும் திட கட்டிகளை உருவாக்குவதில்லை.'
+  },
+  {
+    en:'Ultrasound',ta:'ஒலி அலை ஸ்கேன் (oli alai skæn)',
+    defEn:'A scan that uses high-frequency sound waves to create images of the inside of the body. It is painless and does not use radiation. Often used to look at lumps or abnormalities in soft tissue.',
+    defTa:'உடலின் உள்ளே படங்களை உருவாக்க அதிர்வெண் ஒலி அலைகளை பயன்படுத்தும் ஸ்கேன். இது வலியற்றது மற்றும் கதிர்வீச்சை பயன்படுத்துவதில்லை.'
+  },
+];
+
+// ---- Render glossary -----------------------------------------------------
+const list = document.getElementById('glossary-list');
+const noResults = document.getElementById('no-results');
+const alphaFilter = document.getElementById('alpha-filter');
+
+// Alpha buttons
+const letters = [...new Set(TERMS.map(t=>t.en[0].toUpperCase()))].sort();
+letters.forEach(l=>{
+  const btn = document.createElement('button');
+  btn.textContent = l;
+  btn.setAttribute('aria-label', `Filter by letter ${l}`);
+  btn.style.cssText='min-width:2rem;min-height:2rem;padding:.25rem .5rem;border:1px solid #DEE2E6;border-radius:4px;background:#fff;cursor:pointer;font-size:.82rem;font-weight:500';
+  btn.addEventListener('click', ()=>{
+    document.getElementById('glossary-search').value = '';
+    renderGlossary(l);
+    document.querySelectorAll('#alpha-filter button').forEach(b=>b.setAttribute('aria-pressed','false'));
+    btn.setAttribute('aria-pressed','true');
+  });
+  alphaFilter.appendChild(btn);
+});
+// All button
+const allBtn = document.createElement('button');
+allBtn.textContent='All';
+allBtn.setAttribute('aria-label','Show all terms');
+allBtn.style.cssText='min-width:2.5rem;min-height:2rem;padding:.25rem .6rem;border:2px solid var(--clr-primary);border-radius:4px;background:var(--clr-primary);color:white;cursor:pointer;font-size:.82rem;font-weight:600';
+allBtn.addEventListener('click', ()=>{
+  document.getElementById('glossary-search').value = '';
+  renderGlossary('');
+  document.querySelectorAll('#alpha-filter button').forEach(b=>b.setAttribute('aria-pressed','false'));
+  allBtn.setAttribute('aria-pressed','true');
+});
+alphaFilter.prepend(allBtn);
+
+function renderGlossary(filter='') {
+  list.innerHTML = '';
+  const query = filter.length === 1
+    ? TERMS.filter(t => t.en[0].toUpperCase() === filter)
+    : TERMS.filter(t => {
+        if (!filter) return true;
+        const q = filter.toLowerCase();
+        return t.en.toLowerCase().includes(q) || t.ta.toLowerCase().includes(q)
+            || t.defEn.toLowerCase().includes(q) || t.defTa.toLowerCase().includes(q);
+      });
+  if (!query.length) { noResults.style.display='block'; return; }
+  noResults.style.display='none';
+  query.forEach(term => {
+    const card = document.createElement('div');
+    card.role = 'listitem';
+    card.style.cssText='border:1px solid #DEE2E6;border-radius:8px;padding:1.5rem;margin-bottom:1rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)';
+    card.innerHTML = `
+      <div class="bilingual-pair" style="margin-bottom:.75rem">
+        <div class="bilingual-en">
+          <h2 class="en-only" style="font-size:1.2rem;color:var(--clr-primary);margin:0">${term.en}</h2>
+        </div>
+        <div class="bilingual-ta">
+          <h2 class="ta-only" style="font-size:1.1rem;color:var(--clr-primary);margin:0;font-family:var(--font-ta)">${term.ta}</h2>
+        </div>
+      </div>
+      <div class="bilingual-pair">
+        <div class="bilingual-en">
+          <p class="en-only" style="line-height:1.65">${term.defEn}</p>
+        </div>
+        <div class="bilingual-ta">
+          <p class="ta-only" style="font-family:var(--font-ta);line-height:1.8">${term.defTa} <span style="font-size:.72rem;background:#FFFBEB;color:#B45309;padding:.25rem .5rem;border-radius:4px;white-space:nowrap">⚠️ Awaiting Tamil review</span></p>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+  // Apply current language visibility
+  if(window.CA) window.CA.LangManager.set(window.CA.LangManager.get());
+}
+
+renderGlossary('');
+
+// Search
+document.getElementById('glossary-search').addEventListener('input', e=>{
+  renderGlossary(e.target.value.trim());
+  document.querySelectorAll('#alpha-filter button').forEach(b=>b.setAttribute('aria-pressed','false'));
+  allBtn.setAttribute('aria-pressed', e.target.value.trim() === '' ? 'true' : 'false');
+});
+</script>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-bottom-nav" aria-label="Quick navigation">
+  <div class="mobile-bottom-nav-inner">
+    <a href="../index.html" class="mobile-nav-item" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="body-map.html" class="mobile-nav-item" aria-label="Body map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M12 9v6m-4 3h8"/></svg>
+      <span>Body</span>
+    </a>
+    <a href="symptoms.html" class="mobile-nav-item" aria-label="Symptoms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg>
+      <span>Symptoms</span>
+    </a>
+    <a href="ask.html" class="mobile-nav-item" aria-label="Ask">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Ask</span>
+    </a>
+  </div>
+</nav>
+</body>
+</html>

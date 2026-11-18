@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="both">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bilingual English and Tamil cancer awareness resource by Prof Anguraj Sadanandam. புற்றுநோய் பற்றி தமிழிலும் ஆங்கிலத்திலும் அறிந்து கொள்ளுங்கள்.">
+  <meta name="theme-color" content="#0D6B6E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Cancer Awareness | புற்றுநோய் விழிப்புணர்வு — Prof Anguraj Sadanandam</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Text size overrides -->
+  <style>
+    html[data-text-size="large"]  { font-size: 19px; }
+    html[data-text-size="xlarge"] { font-size: 22px; }
+
+    /* Hero pattern */
+    .hero-pattern {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .hero-pattern svg { width: 100%; height: 100%; opacity: 0.07; }
+
+    /* Stats strip */
+    .stats-strip {
+      background: var(--clr-surface-raised);
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+      padding: var(--sp-6) 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: var(--sp-6);
+      text-align: center;
+    }
+    .stat-num {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      line-height: 1;
+      margin-bottom: var(--sp-1);
+    }
+    .stat-label { font-size: var(--text-sm); color: var(--clr-text-secondary); }
+    .stat-label .ta { font-family: var(--font-ta); font-size: 0.85em; display: block; }
+
+    /* Partners strip */
+    .partners-strip {
+      background: white;
+      padding: var(--sp-8) 0;
+      text-align: center;
+    }
+    .partners-label {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--clr-text-muted);
+      margin-bottom: var(--sp-6);
+    }
+    .partners-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-10);
+      flex-wrap: wrap;
+    }
+    .partner-logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .partner-logo-icon {
+      width: 3.5rem; height: 3.5rem;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 800;
+    }
+    .partner-icr  { background: #E8F4F5; color: var(--clr-primary-dark); }
+    .partner-rmh  { background: #E8EAF6; color: #3949AB; }
+    .partner-name { font-size: var(--text-xs); color: var(--clr-text-secondary); max-width: 8rem; line-height: 1.4; text-align: center; }
+
+    /* Mobile bottom nav */
+    .mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--clr-surface);
+      border-top: 1px solid var(--clr-border);
+      padding: var(--sp-2) 0 env(safe-area-inset-bottom, 0);
+      z-index: 90;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    }
+    .mobile-bottom-nav-inner {
+      display: flex;
+      justify-content: space-around;
+    }
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: var(--sp-2) var(--sp-3);
+      text-decoration: none;
+      color: var(--clr-text-muted);
+      font-size: 0.6rem;
+      font-weight: 500;
+      transition: var(--transition-fast);
+      border-radius: var(--radius-sm);
+      min-width: 3rem;
+    }
+    .mobile-nav-item:hover, .mobile-nav-item.active { color: var(--clr-primary); }
+    .mobile-nav-item svg { width: 1.5rem; height: 1.5rem; }
+    @media (max-width: 768px) {
+      .mobile-bottom-nav { display: block; }
+      body { padding-bottom: 5rem; }
+    }
+
+    /* Offline notice */
+    #offline-notice {
+      display: none;
+      background: #E65100;
+      color: white;
+      text-align: center;
+      padding: var(--sp-2);
+      font-size: var(--text-sm);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Skip link -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- Prototype notice -->
+<div class="prototype-notice" role="banner">
+  🔒 PRIVATE PROTOTYPE — Not for public release. Awaiting institutional, clinical, and language review. | தனியார் முன்மாதிரி — பொது வெளியீட்டிற்கு அனுமதிக்கப்படவில்லை.
+</div>
+
+<!-- Offline notice -->
+<div id="offline-notice" role="alert">
+  📶 You appear to be offline. Cached lessons are still available.
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+
+    <!-- Logo -->
+    <a href="index.html" class="site-logo" aria-label="Cancer Awareness Home — புற்றுநோய் விழிப்புணர்வு முகப்பு">
+      <div class="logo-icon" aria-hidden="true">CA</div>
+      <div>
+        <div class="logo-text-en">Cancer Awareness</div>
+        <div class="logo-text-ta">புற்றுநோய் விழிப்புணர்வு</div>
+      </div>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <a href="index.html"               class="nav-link" aria-label="Home">Home</a>
+      <a href="pages/understand.html"    class="nav-link">Understand cancer</a>
+      <a href="pages/body-map.html"      class="nav-link">Body map</a>
+      <a href="pages/symptoms.html"      class="nav-link">Symptoms</a>
+      <a href="pages/risk.html"          class="nav-link">Reduce risk</a>
+      <a href="pages/screening.html"     class="nav-link">Screening</a>
+      <a href="pages/ask.html"           class="nav-link">Ask a question</a>
+    </nav>
+
+    <!-- Controls -->
+    <div class="header-controls">
+
+      <!-- Language switcher -->
+      <div class="lang-switcher" role="group" aria-label="Language display mode">
+        <button class="lang-btn" data-lang-btn="en"   aria-pressed="false">EN</button>
+        <button class="lang-btn active" data-lang-btn="both" aria-pressed="true">EN+தமிழ்</button>
+        <button class="lang-btn" data-lang-btn="ta"   aria-pressed="false">தமிழ்</button>
+      </div>
+
+      <!-- Text size -->
+      <button class="btn btn-ghost btn-sm" id="text-size-btn" aria-label="Increase text size" title="Text size">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <text x="2" y="18" font-size="14" font-weight="bold" fill="currentColor" stroke="none">A</text>
+          <text x="13" y="20" font-size="10" fill="currentColor" stroke="none">A</text>
+        </svg>
+      </button>
+
+      <!-- Mobile nav toggle -->
+      <button class="nav-toggle btn btn-ghost btn-sm" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== URGENT WORRY BANNER ===== -->
+<div class="worry-banner" role="complementary" aria-label="Worried about a symptom?">
+  <span style="font-size:1.5rem" aria-hidden="true">⚠️</span>
+  <div class="worry-banner-text">
+    <strong class="en-only">Worried about a symptom?</strong>
+    <span class="ta-only ta">அறிகுறிகள் பற்றி கவலையா?</span>
+    <span class="en-only" style="font-weight:400; margin-left:0.5em">Get guidance without needing to log in or complete any lessons first.</span>
+    <span class="ta-only ta" style="margin-top:0.25rem">உள்நுழைவு அல்லது பாடங்கள் முடிக்காமலேயே வழிகாட்டுதல் பெறுங்கள்.</span>
+  </div>
+  <a href="pages/symptoms.html" class="btn btn-warn btn-sm" aria-label="Go to symptom guidance">
+    <span class="en-only">Get guidance</span>
+    <span class="ta-only ta">வழிகாட்டுதல் பெறுங்கள்</span>
+  </a>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main id="main" tabindex="-1">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-pattern" aria-hidden="true">
+      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <circle cx="50" cy="80" r="60" fill="white"/>
+        <circle cx="350" cy="200" r="80" fill="white"/>
+        <circle cx="200" cy="20"  r="40" fill="white"/>
+        <circle cx="380" cy="40"  r="30" fill="white"/>
+        <circle cx="20"  cy="250" r="50" fill="white"/>
+      </svg>
+    </div>
+    <div class="container hero-content">
+      <div style="max-width:38rem">
+        <div class="chip chip-primary" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:white;margin-bottom:var(--sp-5)">
+          Prof Anguraj Sadanandam — England
+        </div>
+        <h1 id="hero-heading">
+          Understanding cancer, together
+          <span class="ta">புற்றுநோயை ஒன்றாக புரிந்துகொள்வோம்</span>
+        </h1>
+        <p>
+          Trusted, bilingual cancer information — in Tamil and English — to help you and your family understand cancer, recognise changes, and know when and where to seek help.
+          <span class="ta">நம்பகமான, இரு மொழி புற்றுநோய் தகவல் — தமிழிலும் ஆங்கிலத்திலும் — உங்களுக்கும் உங்கள் குடும்பத்தினருக்கும்.</span>
+        </p>
+        <div class="flex gap-3" style="flex-wrap:wrap">
+          <a href="pages/understand.html" class="btn btn-accent btn-lg">
+            <span class="en-only">Start learning</span>
+            <span class="ta-only ta">கற்றலை தொடங்குங்கள்</span>
+          </a>
+          <a href="pages/ask.html" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.6);color:white">
+            <span class="en-only">Ask a question</span>
+            <span class="ta-only ta">ஒரு கேள்வி கேளுங்கள்</span>
+          </a>
+        </div>
+        <p style="font-size:var(--text-xs);opacity:0.6;margin-top:var(--sp-5)">
+          No registration needed · No personal data required · Offline lessons available<br>
+          <span class="ta" style="font-family:var(--font-ta)">பதிவு தேவையில்லை · தனிப்பட்ட தரவு தேவையில்லை · ஆஃப்லைன் பாடங்கள் கிடைக்கும்</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip" aria-label="Cancer statistics context">
+    <div class="container">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-num">1 in 2</div>
+          <div class="stat-label">
+            <span class="en-only">People in the UK will develop cancer in their lifetime</span>
+            <span class="ta-only ta">இங்கிலாந்தில் 2 பேரில் 1 பேருக்கு வாழ்நாளில் புற்றுநோய் வரலாம்</span>
+          </div>
+        </div>
+        <div>
+          <div class="stat-num">375+</div>
+          <div class="stat-label">
+            <span class="en-only">Types of cancer known to medicine</span>
+            <span class="ta-only ta">மருத்துவத்தில் அறியப்பட்ட புற்றுநோய் வகைகள்</span>
+          </div>
+        </div>
+        <div>
+          <div class="stat-num">Earlier</div>
+          <div class="stat-label">
+            <span class="en-only">Detection often leads to more treatment options</span>
+            <span class="ta-only ta">முன்னர் கண்டறிவது அதிக சிகிச்சை வாய்ப்புகளை தரலாம்</span>
+          </div>
+        </div>
+        <div>
+          <div class="stat-num">Free</div>
+          <div class="stat-label">
+            <span class="en-only">NHS screening programmes for eligible people</span>
+            <span class="ta-only ta">தகுதியான நபர்களுக்கு இலவச NHS ஸ்கிரீனிங்</span>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-muted" style="text-align:center;margin-top:var(--sp-4)">
+        Sources: Cancer Research UK, NHS England — UK statistics, 2023 data. See <a href="data/sources.json" target="_blank">source register</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6 HOME PANELS -->
+  <section class="section" aria-labelledby="explore-heading">
+    <div class="container">
+      <h2 id="explore-heading" class="section-title en-only">What would you like to explore?</h2>
+      <p class="section-title-ta ta-only ta">நீங்கள் என்ன அறிய விரும்புகிறீர்கள்?</p>
+
+      <div class="home-panels">
+
+        <!-- 1. Understand cancer -->
+        <a href="pages/understand.html" class="panel-card panel-understand card-interactive" aria-label="Understand cancer — புற்றுநோயை புரிந்துகொள்ளுங்கள்">
+          <div class="panel-icon" aria-hidden="true">🔬</div>
+          <div>
+            <div class="panel-title-en en-only">Understand cancer</div>
+            <div class="panel-title-ta ta-only ta">புற்றுநோயை புரிந்துகொள்ளுங்கள்</div>
+            <div class="panel-desc-en en-only">What is cancer? How do cells behave? What makes it complex? Clear, illustrated explanations.</div>
+            <div class="panel-desc-ta ta-only ta">புற்றுநோய் என்றால் என்ன? செல்கள் எவ்வாறு செயல்படுகின்றன? தெளிவான விளக்கங்கள்.</div>
+          </div>
+          <div class="panel-arrow" aria-hidden="true">→</div>
+        </a>
+
+        <!-- 2. Body map -->
+        <a href="pages/body-map.html" class="panel-card panel-body card-interactive" aria-label="Explore the body — உடல் வரைபடம்">
+          <div class="panel-icon" aria-hidden="true">🫀</div>
+          <div>
+            <div class="panel-title-en en-only">Explore the body</div>
+            <div class="panel-title-ta ta-only ta">உடல் வரைபடம்</div>
+            <div class="panel-desc-en en-only">Interactive body map with 18 cancer types — tap any area to learn where cancers can occur.</div>
+            <div class="panel-desc-ta ta-only ta">18 புற்றுநோய் வகைகளுடன் ஊடாடும் உடல் வரைபடம் — எந்த பகுதியையும் தட்டி அறியுங்கள்.</div>
+          </div>
+          <div class="panel-arrow" aria-hidden="true">→</div>
+        </a>
+
+        <!-- 3. Symptoms -->
+        <a href="pages/symptoms.html" class="panel-card panel-symptoms card-interactive" aria-label="Learn about symptoms — அறிகுறிகளை அறியுங்கள்">
+          <div class="panel-icon" aria-hidden="true">🩺</div>
+          <div>
+            <div class="panel-title-en en-only">Learn about symptoms</div>
+            <div class="panel-title-ta ta-only ta">அறிகுறிகளை அறியுங்கள்</div>
+            <div class="panel-desc-en en-only">Which changes in your body are worth discussing with a doctor? Clear, non-alarming guidance.</div>
+            <div class="panel-desc-ta ta-only ta">உடலில் எந்த மாற்றங்களை மருத்துவரிடம் பேசுவது? தெளிவான, அமைதியான வழிகாட்டுதல்.</div>
+          </div>
+          <div class="panel-arrow" aria-hidden="true">→</div>
+        </a>
+
+        <!-- 4. Reduce risk -->
+        <a href="pages/risk.html" class="panel-card panel-risk card-interactive" aria-label="Reduce your risk — ஆபத்தை குறைக்கவும்">
+          <div class="panel-icon" aria-hidden="true">🌿</div>
+          <div>
+            <div class="panel-title-en en-only">Reduce your risk</div>
+            <div class="panel-title-ta ta-only ta">உங்கள் ஆபத்தை குறைக்கவும்</div>
+            <div class="panel-desc-en en-only">Evidence-based steps to reduce cancer risk — realistic, affordable, and culturally relevant.</div>
+            <div class="panel-desc-ta ta-only ta">புற்றுநோய் ஆபத்தை குறைக்க ஆதார-அடிப்படையிலான நடவடிக்கைகள் — யதார்த்தமான, கலாச்சார தொடர்புடையவை.</div>
+          </div>
+          <div class="panel-arrow" aria-hidden="true">→</div>
+        </a>
+
+        <!-- 5. Screening -->
+        <a href="pages/screening.html" class="panel-card panel-screening card-interactive" aria-label="Understand screening and tests — ஸ்கிரீனிங் மற்றும் சோதனைகள்">
+          <div class="panel-icon" aria-hidden="true">🔎</div>
+          <div>
+            <div class="panel-title-en en-only">Understand screening &amp; tests</div>
+            <div class="panel-title-ta ta-only ta">ஸ்கிரீனிங் மற்றும் சோதனைகள்</div>
+            <div class="panel-desc-en en-only">NHS screening explained — who it is for, what it involves, and what results mean.</div>
+            <div class="panel-desc-ta ta-only ta">NHS ஸ்கிரீனிங் விளக்கம் — யாருக்கு, என்ன நடக்கும், முடிவுகள் என்ன அர்த்தம்.</div>
+          </div>
+          <div class="panel-arrow" aria-hidden="true">→</div>
+        </a>
+
+        <!-- 6. Ask a question -->
+        <a href="pages/ask.html" class="panel-card panel-ask card-interactive" aria-label="Ask a question — ஒரு கேள்வி கேளுங்கள்">
+          <div class="panel-icon" aria-hidden="true">💬</div>
+          <div>
+            <div class="panel-title-en en-only">Ask a question</div>
+            <div class="panel-title-ta ta-only ta">ஒரு கேள்வி கேளுங்கள்</div>
+            <div class="panel-desc-en en-only">Ask in English, Tamil, or a mixture — answers drawn from verified public sources with citations.</div>
+            <div class="panel-desc-ta ta-only ta">ஆங்கிலத்திலோ, தமிழிலோ, கலந்தோ கேளுங்கள் — சரிபார்க்கப்பட்ட ஆதாரங்களிலிருந்து பதில்கள்.</div>
+          </div>
+          <div class="panel-arrow" aria-hidden="true">→</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED QUICK CARDS -->
+  <section class="section section-alt" aria-labelledby="quicklearn-heading">
+    <div class="container">
+      <h2 id="quicklearn-heading" class="section-title en-only">2-minute learning cards</h2>
+      <p class="section-title-ta ta-only ta">2 நிமிட கற்றல் அட்டைகள்</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--sp-5)">
+
+        <article class="card" style="border-left:4px solid var(--clr-primary)">
+          <div style="font-size:2rem;margin-bottom:var(--sp-3)" aria-hidden="true">🧬</div>
+          <h3 style="font-size:var(--text-md);margin-bottom:var(--sp-2)" class="en-only">What is a cancer cell?</h3>
+          <h3 style="font-size:var(--text-md);margin-bottom:var(--sp-2);font-family:var(--font-ta);color:var(--clr-tamil)" class="ta-only ta">புற்றுநோய் செல் என்றால் என்ன?</h3>
+          <p class="text-sm text-secondary en-only">Your body has trillions of cells. Normally they grow, divide, and die in an orderly way. Cancer begins when something goes wrong with this process in a single cell.</p>
+          <p class="text-sm ta-only ta" style="font-family:var(--font-ta);color:var(--clr-text-secondary)">உங்கள் உடலில் பல கோடி செல்கள் உள்ளன. பொதுவாக அவை ஒழுங்காக வளர்ந்து, பிரிந்து, இறக்கும். ஒரு செல்லில் இந்த செயல்பாட்டில் ஏதோ தவறு நேரும்போது புற்றுநோய் தொடங்குகிறது.</p>
+          <a href="pages/understand.html#what-is-cancer" class="btn btn-outline btn-sm" style="margin-top:var(--sp-4)">
+            <span class="en-only">Learn more</span>
+            <span class="ta-only ta">மேலும் அறிய</span>
+          </a>
+        </article>
+
+        <article class="card" style="border-left:4px solid var(--clr-accent)">
+          <div style="font-size:2rem;margin-bottom:var(--sp-3)" aria-hidden="true">🔎</div>
+          <h3 style="font-size:var(--text-md);margin-bottom:var(--sp-2)" class="en-only">When should I see a doctor?</h3>
+          <h3 style="font-size:var(--text-md);margin-bottom:var(--sp-2);font-family:var(--font-ta);color:var(--clr-tamil)" class="ta-only ta">எப்போது மருத்துவரை சந்திக்க வேண்டும்?</h3>
+          <p class="text-sm text-secondary en-only">You don't need to wait a set number of weeks. If something feels unusual, persists, or worsens — getting it assessed is always the right step.</p>
+          <p class="text-sm ta-only ta" style="font-family:var(--font-ta);color:var(--clr-text-secondary)">குறிப்பிட்ட வாரங்கள் காத்திருக்க வேண்டியதில்லை. ஏதாவது அசாதாரணமாக, தொடர்ந்து, அல்லது மோசமாக இருந்தால் — மதிப்பீடு செய்வது எப்போதும் சரியான நடவடிக்கை.</p>
+          <a href="pages/symptoms.html" class="btn btn-outline btn-sm" style="margin-top:var(--sp-4)">
+            <span class="en-only">See symptom guide</span>
+            <span class="ta-only ta">அறிகுறி வழிகாட்டி</span>
+          </a>
+        </article>
+
+        <article class="card" style="border-left:4px solid var(--clr-success)">
+          <div style="font-size:2rem;margin-bottom:var(--sp-3)" aria-hidden="true">🌿</div>
+          <h3 style="font-size:var(--text-md);margin-bottom:var(--sp-2)" class="en-only">Does betel nut carry a cancer risk?</h3>
+          <h3 style="font-size:var(--text-md);margin-bottom:var(--sp-2);font-family:var(--font-ta);color:var(--clr-tamil)" class="ta-only ta">வெற்றிலை பாக்கு புற்றுநோய் அபாயத்தை தருமா?</h3>
+          <p class="text-sm text-secondary en-only">Yes — areca nut (supari/paak) is classified as a Group 1 carcinogen by IARC, with or without added tobacco. The risk includes mouth and throat cancers.</p>
+          <p class="text-sm ta-only ta" style="font-family:var(--font-ta);color:var(--clr-text-secondary)">ஆம் — பாக்கு (சுபாரி) IARC இன் குழு 1 புற்றுநோய் காரணியாக வகைப்படுத்தப்பட்டுள்ளது, புகையிலையுடன் அல்லது இல்லாமல். வாய் மற்றும் தொண்டை புற்றுநோய் அபாயம் அடங்கும்.</p>
+          <a href="pages/risk.html#betel" class="btn btn-outline btn-sm" style="margin-top:var(--sp-4)">
+            <span class="en-only">Read the evidence</span>
+            <span class="ta-only ta">ஆதாரங்களை படிக்கவும்</span>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MYTH vs FACT TASTER -->
+  <section class="section" aria-labelledby="myth-heading">
+    <div class="container container-narrow">
+      <h2 id="myth-heading" class="section-title en-only" style="text-align:center">Myth vs fact</h2>
+      <p class="section-title-ta ta-only ta" style="text-align:center;font-family:var(--font-ta)">கட்டுக்கதை vs உண்மை</p>
+
+      <div style="display:flex;flex-direction:column;gap:var(--sp-5)">
+
+        <div class="myth-card">
+          <div class="myth-top">
+            <span class="myth-icon" aria-hidden="true">❌</span>
+            <div>
+              <div class="myth-label myth">Myth — கட்டுக்கதை</div>
+              <p class="en-only"><strong>"Cancer is contagious — you can catch it from someone."</strong></p>
+              <p class="ta-only ta" style="font-family:var(--font-ta)"><strong>"புற்றுநோய் தொற்றும் — யாரிடமிருந்தாவது பெறலாம்."</strong></p>
+            </div>
+          </div>
+          <div class="myth-bottom">
+            <div class="myth-label fact">Fact — உண்மை</div>
+            <p class="en-only text-sm">Cancer itself cannot be passed from person to person. While certain infections (like HPV or hepatitis B) that increase cancer risk can be transmitted, the cancer itself is not contagious.</p>
+            <p class="ta-only ta text-sm" style="font-family:var(--font-ta)">புற்றுநோய் ஒரு நபரிடமிருந்து மற்றொருவருக்கு பரவாது. HPV போன்ற சில நோய்த்தொற்றுகள் தொற்றினாலும், புற்றுநோய் தொற்றாது.</p>
+            <div class="review-notice" style="margin-top:var(--sp-3)">⚠️ Awaiting bilingual clinical review — தமிழ் மருத்துவ மதிப்பாய்வு நிலுவையில்</div>
+          </div>
+        </div>
+
+        <div class="myth-card">
+          <div class="myth-top">
+            <span class="myth-icon" aria-hidden="true">❌</span>
+            <div>
+              <div class="myth-label myth">Myth — கட்டுக்கதை</div>
+              <p class="en-only"><strong>"Only older people get cancer."</strong></p>
+              <p class="ta-only ta" style="font-family:var(--font-ta)"><strong>"புற்றுநோய் வயதானவர்களுக்கு மட்டுமே வரும்."</strong></p>
+            </div>
+          </div>
+          <div class="myth-bottom">
+            <div class="myth-label fact">Fact — உண்மை</div>
+            <p class="en-only text-sm">Cancer can occur at any age, including in children and young adults. Age is a risk factor for many cancers, but young age should never be used to dismiss a symptom that deserves attention.</p>
+            <p class="ta-only ta text-sm" style="font-family:var(--font-ta)">புற்றுநோய் எந்த வயதிலும் வரலாம் — குழந்தைகளிலும், இளைஞர்களிலும். இளம் வயதை காரணம் காட்டி ஒரு அறிகுறியை அலட்சியப்படுத்தக்கூடாது.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:var(--sp-8)">
+        <a href="pages/understand.html#myths" class="btn btn-primary">
+          <span class="en-only">See all myths &amp; facts</span>
+          <span class="ta-only ta">அனைத்து கட்டுக்கதைகள் மற்றும் உண்மைகள்</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="partners-strip section-alt" aria-label="Initiative lead">
+    <div class="partners-label">An educational initiative by | ஒரு கல்வி முன்முயற்சி</div>
+    <div style="text-align:center;margin-top:.75rem;font-size:1.05rem;font-weight:600;color:var(--clr-primary)">
+      Prof Anguraj Sadanandam
+    </div>
+    <div style="text-align:center;margin-top:.5rem;font-size:.82rem;color:var(--clr-text-muted)">
+      Built and derived through <a href="https://claude.ai" target="_blank" rel="noopener" style="color:var(--clr-primary);text-decoration:none;font-weight:500">Claude</a> by Anthropic
+    </div>
+    <p style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-5);text-align:center;max-width:36rem;margin-left:auto;margin-right:auto;padding:0 var(--sp-6)">
+      This prototype is developed by Prof Anguraj Sadanandam using Claude for community outreach. This service does not provide emergency care or clinical appointments. Information is drawn from public NHS, Cancer Research UK, and Macmillan sources and is provided for educational purposes only. It may contain errors or become outdated. Always consult a qualified healthcare professional for medical advice — do not rely solely on this resource for health decisions.
+    </p>
+  </section>
+
+  <!-- PRIVACY NOTICE -->
+  <section class="section-sm" style="background:#F9F9F9;border-top:1px solid var(--clr-border)">
+    <div class="container container-narrow" style="text-align:center">
+      <p class="text-sm text-secondary">
+        🔒 <strong class="en-only">Your privacy:</strong>
+        <span class="en-only">No account needed. We do not ask for your name, date of birth, address, or medical records. Learning progress is stored only on this device. Please do not enter identifying personal details in the question box.</span>
+        <br class="en-only">
+        <span class="ta-only ta" style="font-family:var(--font-ta)">🔒 <strong>உங்கள் தனியுரிமை:</strong> கணக்கு தேவையில்லை. உங்கள் பெயர், பிறந்த தேதி, முகவரி, அல்லது மருத்துவ பதிவுகள் கேட்கப்படாது. கற்றல் முன்னேற்றம் இந்த சாதனத்திலேயே சேமிக்கப்படும்.</span>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-col-title">About this service</div>
+        <p style="font-size:var(--text-sm);line-height:var(--lh-loose)">
+          An educational prototype for Tamil-speaking communities in England, using only verified, publicly available sources. Pending institutional and clinical review.
+        </p>
+        <p style="font-size:var(--text-sm);font-family:var(--font-ta);margin-top:var(--sp-3);opacity:0.7">
+          இங்கிலாந்தில் தமிழ் பேசும் சமுதாயங்களுக்கான கல்வி முன்மாதிரி.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-title">Learn</div>
+        <ul class="footer-links">
+          <li><a href="pages/understand.html">Understand cancer | புற்றுநோயை புரிந்துகொள்ளுங்கள்</a></li>
+          <li><a href="pages/body-map.html">Body map | உடல் வரைபடம்</a></li>
+          <li><a href="pages/symptoms.html">Symptoms | அறிகுறிகள்</a></li>
+          <li><a href="pages/risk.html">Reduce risk | ஆபத்தை குறைக்கவும்</a></li>
+          <li><a href="pages/screening.html">Screening | ஸ்கிரீனிங்</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Help &amp; support</div>
+        <ul class="footer-links">
+          <li><a href="pages/ask.html">Ask a question</a></li>
+          <li><a href="pages/symptoms.html#urgent">Urgent symptoms</a></li>
+          <li><a href="data/sources.json" target="_blank">Source register</a></li>
+          <li><a href="review/dashboard.html">Review dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Useful links</div>
+        <ul class="footer-links">
+          <li><a href="https://www.nhs.uk/conditions/cancer/" target="_blank" rel="noopener">NHS: Cancer</a></li>
+          <li><a href="https://www.cancerresearchuk.org" target="_blank" rel="noopener">Cancer Research UK</a></li>
+          <li><a href="https://www.macmillan.org.uk" target="_blank" rel="noopener">Macmillan Cancer Support</a></li>
+          <li><a href="https://www.icr.ac.uk/research/research-groups-and-centres/systems-and-precision-cancer-medicine/sadanandam-group" target="_blank" rel="noopener">Sadanandam Group</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-disclaimer">
+      <strong>Important:</strong> This service provides general cancer education only. It cannot diagnose cancer, calculate your personal risk, or recommend treatment. Always speak with a qualified healthcare professional about your own health. For urgent symptoms, contact your GP, call NHS 111, or dial 999 in an emergency.<br>
+      <span style="font-family:var(--font-ta);font-size:0.9em">
+        <strong>முக்கியமான குறிப்பு:</strong> இந்த சேவை பொதுவான புற்றுநோய் கல்வியை மட்டுமே வழங்குகிறது. இது புற்றுநோயை கண்டறியவோ, தனிப்பட்ட ஆபத்தை கணக்கிடவோ, அல்லது சிகிச்சையை பரிந்துரைக்கவோ முடியாது. அவசர அறிகுறிகளுக்கு NHS 111 அல்லது 999 ஐ அழைக்கவும்.
+      </span>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 2026 Cancer Awareness Prototype — Prof Anguraj Sadanandam.<br>
+        <span style="font-family:var(--font-ta)">புற்றுநோய் விழிப்புணர்வு முன்மாதிரி</span>
+      </div>
+      <div>
+        <a href="review/dashboard.html" style="color:rgba(255,255,255,0.4)">Review dashboard</a> ·
+        <a href="data/sources.json" target="_blank" style="color:rgba(255,255,255,0.4)">Sources</a> ·
+        <span style="color:rgba(255,255,255,0.3)">v0.1 prototype — not for public release</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-bottom-nav" aria-label="Quick navigation">
+  <div class="mobile-bottom-nav-inner">
+    <a href="index.html" class="mobile-nav-item active" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="pages/body-map.html" class="mobile-nav-item" aria-label="Body map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M12 9v6m-4 3h8"/></svg>
+      <span>Body</span>
+    </a>
+    <a href="pages/symptoms.html" class="mobile-nav-item" aria-label="Symptoms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg>
+      <span>Symptoms</span>
+    </a>
+    <a href="pages/ask.html" class="mobile-nav-item" aria-label="Ask">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Ask</span>
+    </a>
+  </div>
+</nav>
+
+<script src="js/app.js"></script>
+<script>
+  // Text size cycling
+  document.getElementById('text-size-btn')?.addEventListener('click', () => {
+    const sizes = ['normal','large','xlarge'];
+    const cur = document.documentElement.dataset.textSize || 'normal';
+    const next = sizes[(sizes.indexOf(cur)+1) % sizes.length];
+    document.documentElement.dataset.textSize = next;
+    localStorage.setItem('ca_textsize', next);
+  });
+
+  // Offline detection
+  function updateOffline() {
+    document.getElementById('offline-notice').style.display = navigator.onLine ? 'none' : 'block';
+  }
+  window.addEventListener('online', updateOffline);
+  window.addEventListener('offline', updateOffline);
+  updateOffline();
+
+  // Service worker registration
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="both">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symptoms & When to Act | அறிகுறிகள் — Cancer Awareness</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .symptom-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: var(--sp-6);
+    }
+    .symptom-card-header {
+      display: flex; align-items: center; gap: var(--sp-4);
+      padding: var(--sp-5) var(--sp-6);
+      cursor: pointer;
+      background: var(--clr-surface);
+    }
+    .symptom-card-header:hover { background: var(--clr-surface-raised); }
+    .symptom-icon { font-size: 2rem; flex-shrink: 0; }
+    .symptom-chevron { margin-left: auto; transition: transform var(--transition-fast); }
+    details.symptom-card[open] .symptom-chevron { transform: rotate(180deg); }
+    .symptom-card-body { padding: var(--sp-5) var(--sp-6) var(--sp-6); }
+    .action-rule {
+      background: #FFF3E0;
+      border-left: 4px solid var(--clr-accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: var(--sp-4) var(--sp-5);
+      margin: var(--sp-4) 0;
+    }
+    [data-theme="dark"] .action-rule { background: rgba(224,123,57,0.12); }
+    .action-rule-urgent {
+      background: #FFEBEE;
+      border-left-color: #D32F2F;
+    }
+    [data-theme="dark"] .action-rule-urgent { background: rgba(211,47,47,0.15); }
+    .symptom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+      gap: var(--sp-4);
+      margin: var(--sp-6) 0;
+    }
+  </style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="prototype-notice">🔒 PRIVATE PROTOTYPE — Awaiting clinical and language review</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">
+      <div class="logo-icon" aria-hidden="true">CA</div>
+      <div>
+        <div class="logo-text-en">Cancer Awareness</div>
+        <div class="logo-text-ta">புற்றுநோய் விழிப்புணர்வு</div>
+      </div>
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="understand.html" class="nav-link">Understand cancer</a>
+      <a href="body-map.html" class="nav-link">Body map</a>
+      <a href="symptoms.html" class="nav-link active">Symptoms</a>
+      <a href="risk.html" class="nav-link">Reduce risk</a>
+      <a href="screening.html" class="nav-link">Screening</a>
+      <a href="ask.html" class="nav-link">Ask a question</a>
+    </nav>
+    <div class="header-controls">
+      <div class="lang-switcher" role="group" aria-label="Language display mode">
+        <button class="lang-btn" data-lang-btn="en">EN</button>
+        <button class="lang-btn active" data-lang-btn="both">EN+தமிழ்</button>
+        <button class="lang-btn" data-lang-btn="ta">தமிழ்</button>
+      </div>
+      <button class="nav-toggle btn btn-ghost btn-sm" id="nav-toggle" aria-expanded="false" aria-controls="main-nav">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- URGENT BANNER -->
+  <div style="background:#B71C1C;color:white;padding:var(--sp-4) 0">
+    <div class="container" style="display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap">
+      <span style="font-size:1.5rem" aria-hidden="true">🚨</span>
+      <div>
+        <strong class="en-only">If you have chest pain, severe difficulty breathing, or are very unwell right now — call 999 or go to A&amp;E immediately.</strong>
+        <strong class="ta-only ta" style="font-family:var(--font-ta)">நெஞ்சுவலி, கடுமையான மூச்சுத்திணறல் அல்லது மிகவும் உடல் நலக்குறைவு இருந்தால் — இப்போதே 999 அழைக்கவும் அல்லது A&amp;E க்கு செல்லவும்.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="background:linear-gradient(135deg,#4A148C,#7B1FA2);color:white;padding:var(--sp-10) 0">
+    <div class="container">
+      <h1 style="color:white;font-size:clamp(var(--text-2xl),4vw,var(--text-3xl));margin-bottom:var(--sp-3)">
+        <span class="en-only">Symptoms & when to act</span>
+        <span class="ta-only ta">அறிகுறிகள் மற்றும் எப்போது உதவி தேடவேண்டும்</span>
+      </h1>
+      <div class="bilingual-pair" style="max-width:44rem">
+        <p class="bilingual-en">Understanding possible symptoms of cancer, knowing when they need attention, and feeling confident about speaking to your GP are all important — this page helps with all three.</p>
+        <p class="bilingual-ta">புற்றுநோயின் சாத்தியமான அறிகுறிகளை அறிதல், எப்போது கவனம் தேவை என்று தெரிதல், மற்றும் GP யிடம் பேசுவதில் நம்பிக்கை கொள்வது முக்கியம் — இந்த பக்கம் மூன்றிலும் உதவுகிறது.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:var(--sp-10)">
+
+    <!-- KEY PRINCIPLE -->
+    <div class="info-box info-box-info" style="margin-bottom:var(--sp-10)">
+      <div class="bilingual-pair">
+        <div class="bilingual-en">
+          <strong>Symptoms can have many causes.</strong> Most of the time they are not cancer. But some symptoms — especially those that are <em>unusual for you</em>, persistent, worsening, or that occur together — deserve assessment. Getting checked brings either reassurance or early help.
+        </div>
+        <div class="bilingual-ta">
+          <strong>அறிகுறிகள் பல காரணங்களால் வரலாம்.</strong> பெரும்பாலும் அவை புற்றுநோயாக இருக்காது. ஆனால் சில அறிகுறிகள் — குறிப்பாக <em>உங்களுக்கு அசாதாரணமான</em>, தொடர்ச்சியான, மோசமாகும் அல்லது சேர்ந்து வரும் — மதிப்பாய்வு பெறுவது அவசியம்.
+        </div>
+      </div>
+    </div>
+
+    <!-- SYMPTOMS A-Z -->
+    <h2 class="en-only" style="margin-bottom:var(--sp-6)">Symptoms to know about</h2>
+    <h2 class="ta-only ta" style="margin-bottom:var(--sp-6);font-family:var(--font-ta)">அறிந்திருக்க வேண்டிய அறிகுறிகள்</h2>
+    <p class="text-sm text-muted en-only" style="margin-bottom:var(--sp-6)">Tap each symptom to see action guidance and which cancers it may be associated with.</p>
+    <p class="text-sm ta-only ta" style="margin-bottom:var(--sp-6);font-family:var(--font-ta)">ஒவ்வொரு அறிகுறியையும் தட்டி செயல் வழிகாட்டுதல் பாருங்கள்.</p>
+
+    <!-- SYMPTOM CARDS -->
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">🔴</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Unusual bleeding</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">அசாதாரண இரத்தப்போக்கு</div>
+          <div class="text-xs text-muted en-only">Blood in urine, stool, coughed up, or after menopause</div>
+          <div class="text-xs ta-only ta" style="font-family:var(--font-ta)">சிறுநீர், மலம், இருமல், அல்லது மாதவிடாயுக்கு பிறகு</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p>Unusual or unexplained bleeding can sometimes indicate cancer. This includes:</p>
+            <ul>
+              <li><strong>Blood in urine</strong> (even once, even without pain) — may point to bladder or kidney cancer</li>
+              <li><strong>Blood in stool</strong> (bright red or dark/tarry) — may point to bowel cancer</li>
+              <li><strong>Coughing up blood</strong> — may point to lung cancer</li>
+              <li><strong>Vaginal bleeding after the menopause</strong>, between periods, or after sex — may point to womb or cervical cancer</li>
+              <li><strong>Unexplained bruising</strong> — may indicate blood cancers</li>
+            </ul>
+          </div>
+          <div class="bilingual-ta">
+            <p>அசாதாரண இரத்தப்போக்கு சில நேரம் புற்றுநோயை குறிக்கலாம்:</p>
+            <ul>
+              <li><strong>சிறுநீரில் இரத்தம்</strong> — சிறுநீர்ப்பை அல்லது சிறுநீரக புற்றுநோயை குறிக்கலாம்</li>
+              <li><strong>மலத்தில் இரத்தம்</strong> — குடல் புற்றுநோயை குறிக்கலாம்</li>
+              <li><strong>இருமும்போது இரத்தம்</strong> — நுரையீரல் புற்றுநோயை குறிக்கலாம்</li>
+              <li><strong>மாதவிடாயுக்கு பிறகு யோனி இரத்தப்போக்கு</strong> — கர்ப்பப்பை அல்லது கர்ப்பப்பை வாய் புற்றுநோய்</li>
+            </ul>
+          </div>
+        </div>
+        <div class="action-rule action-rule-urgent">
+          <strong class="en-only">🩺 See your GP promptly.</strong>
+          <span class="en-only"> Any unexplained bleeding should be assessed. Blood in urine is an urgent referral symptom — do not wait.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 உடனே உங்கள் GP யை சந்தியுங்கள்.</strong>
+          <span class="ta-only ta" style="font-family:var(--font-ta)"> சிறுநீரில் இரத்தம் — காத்திருக்க வேண்டாம்.</span>
+        </div>
+        <div class="source-list">
+          <p class="source-item">📄 NHS: Blood in urine, Blood in stool — Cancer Research UK: Symptoms</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">🟡</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Unexplained lump or swelling</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">விளக்கமில்லா கட்டி அல்லது வீக்கம்</div>
+          <div class="text-xs text-muted en-only">New or changing lump anywhere in the body</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p>A new lump, thickening, or swelling that is unexplained, persists, or grows should be checked by a doctor. This includes lumps in the breast, armpit, groin, neck, testicle, or any other part of the body. <strong>Most lumps are not cancer</strong>, but all deserve attention.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p>விளக்கமில்லாத, தொடர்ந்த, அல்லது வளரும் கட்டி மருத்துவரால் சோதிக்கப்பட வேண்டும். <strong>பெரும்பாலான கட்டிகள் புற்றுநோயாக இருக்காது</strong>, ஆனால் அனைத்தும் கவனிக்கப்பட வேண்டும்.</p>
+          </div>
+        </div>
+        <div class="action-rule">
+          <strong class="en-only">🩺 See your GP.</strong>
+          <span class="en-only"> If a lump is growing quickly, is hard, or is accompanied by other symptoms, seek an appointment soon.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 உங்கள் GP யை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">⚖️</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Unexplained weight loss</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">விளக்கமில்லா எடை இழப்பு</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">Losing a noticeable amount of weight without trying, or without a change in diet or activity, can sometimes be a sign of cancer. It may occur alongside fatigue and loss of appetite.</div>
+          <div class="bilingual-ta">உணவு அல்லது செயல்பாடு மாற்றமில்லாமல் குறிப்பிடத்தக்க எடை குறைவது சில நேரம் புற்றுநோயின் அறிகுறியாக இருக்கலாம்.</div>
+        </div>
+        <div class="action-rule">
+          <strong class="en-only">🩺 See your GP</strong>
+          <span class="en-only"> if you have lost weight without trying over a few weeks.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 சில வாரங்களில் முயற்சியின்றி எடை குறைந்தால் GP யை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">😮‍💨</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Persistent cough or breathlessness</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">தொடர் இருமல் அல்லது மூச்சுத்திணறல்</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p>A cough lasting 3 or more weeks, especially one that is new or worsening, should be assessed. Other concerns: a change in a long-standing cough, hoarseness, recurring chest infections, or persistent breathlessness not explained by exercise.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p>3 அல்லது அதிக வாரங்கள் நீடிக்கும் இருமல், குறிப்பாக புதிய அல்லது மோசமாகும் இருமல், மதிப்பாய்வு பெற வேண்டும். கரகரப்பான குரல், தொடர் மார்பு நோய்த்தொற்று, தொடர் மூச்சுத்திணறல் ஆகியவையும் கவலைப்பட வேண்டியவை.</p>
+          </div>
+        </div>
+        <div class="action-rule">
+          <strong class="en-only">🩺 See your GP</strong>
+          <span class="en-only"> if a cough persists 3+ weeks or if you cough up blood.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 3+ வாரம் இருமல் நீடித்தால் அல்லது இரத்தம் கக்கினால் GP யை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">🍽️</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Swallowing difficulties or persistent indigestion</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">விழுங்குவதில் சிரமம் அல்லது தொடர் அஜீரணம்</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">New difficulty swallowing, food sticking in the throat or chest, or persistent indigestion/heartburn — especially if over 55 or with weight loss — should be assessed promptly.</div>
+          <div class="bilingual-ta">புதிய விழுங்குவதில் சிரமம், உணவு தொண்டையில் அல்லது மார்பில் சிக்குவது, அல்லது தொடர் அஜீரணம் — குறிப்பாக 55+ வயதில் அல்லது எடை குறைவுடன் — உடனடியாக மதிப்பாய்வு பெற வேண்டும்.</div>
+        </div>
+        <div class="action-rule action-rule-urgent">
+          <strong class="en-only">🩺 See your GP promptly</strong>
+          <span class="en-only"> — especially if you are over 55 and have persistent indigestion, difficulty swallowing, or unexplained weight loss.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 GP யை உடனடியாக சந்தியுங்கள் — குறிப்பாக 55+ வயதுடன் தொடர் அஜீரணம், விழுங்குவதில் சிரமம் இருந்தால்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">🦷</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Mouth, tongue, or throat changes</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">வாய், நாக்கு அல்லது தொண்டையில் மாற்றங்கள்</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p>Ulcers or sores in the mouth that do not heal within 3 weeks, red or white patches inside the mouth, unexplained pain or numbness, difficulty chewing or moving the jaw. These are especially important to check for people who chew betel nut, tobacco, or use smokeless tobacco products.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p>3 வாரங்களில் ஆறாத வாயில் புண்கள், வாயில் சிவப்பு அல்லது வெள்ளை திட்டுகள், விளக்கமில்லா வலி. வெற்றிலை பாக்கு, புகையிலை பயன்படுத்துபவர்களுக்கு இது மிக முக்கியம்.</p>
+          </div>
+        </div>
+        <div class="action-rule action-rule-urgent">
+          <strong class="en-only">🩺 See your GP or dentist within 2 weeks</strong>
+          <span class="en-only"> if a mouth ulcer has not healed after 3 weeks.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 3 வாரங்களில் வாயில் புண் ஆறவில்லை என்றால் 2 வாரத்திற்குள் GP அல்லது பல் மருத்துவரை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">🧴</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Changing skin or moles</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">தோல் அல்லது மச்சத்தில் மாற்றங்கள்</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p>Use the ABCDE rule for moles: <strong>A</strong>symmetry, <strong>B</strong>order irregularity, <strong>C</strong>olour unevenness, <strong>D</strong>iameter growing, <strong>E</strong>volving (changing). Also watch for new lumps, sores that do not heal, or patches of skin that bleed or crust. <strong>Skin cancer can affect any skin tone.</strong></p>
+          </div>
+          <div class="bilingual-ta">
+            <p>மச்சத்திற்கான ABCDE விதியை பயன்படுத்துங்கள்: சமச்சீரற்ற, ஒழுங்கற்ற எல்லை, சீரற்ற நிறம், வளரும் அளவு, மாற்றம். தோல் புற்றுநோய் <strong>எந்த தோல் நிறத்திலும் வரலாம்.</strong></p>
+          </div>
+        </div>
+        <div class="action-rule">
+          <strong class="en-only">🩺 See your GP</strong>
+          <span class="en-only"> if a mole changes, bleeds, or is unusual in any way.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 மச்சம் மாறினால், இரத்தம் வந்தால் GP யை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">🚽</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Changes in bowel or urinary habits</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">மலம் கழிக்கும் அல்லது சிறுநீர் கழிக்கும் பழக்கத்தில் மாற்றங்கள்</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">
+            <p><strong>Bowel:</strong> A persistent change lasting 3 or more weeks, including looser or more frequent stools, or alternating constipation and diarrhoea.</p>
+            <p><strong>Urinary:</strong> Needing to urinate much more often (especially at night), difficulty starting, weak stream, or feeling that the bladder has not emptied fully — especially in men over 50.</p>
+          </div>
+          <div class="bilingual-ta">
+            <p><strong>மலம்:</strong> 3+ வாரம் நீடிக்கும் மாற்றம் — தளர்ந்த அல்லது அடிக்கடி மலம்.</p>
+            <p><strong>சிறுநீர்:</strong> அடிக்கடி சிறுநீர் கழிக்க வேண்டும் (குறிப்பாக இரவில்), தொடங்குவதில் சிரமம் — குறிப்பாக 50+ ஆண்களில்.</p>
+          </div>
+        </div>
+        <div class="action-rule">
+          <strong class="en-only">🩺 See your GP</strong>
+          <span class="en-only"> if bowel habits change and persist for 3+ weeks.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 மலம் கழிக்கும் பழக்கம் 3+ வாரம் மாறினால் GP யை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom-card">
+      <summary class="symptom-card-header">
+        <span class="symptom-icon" aria-hidden="true">😴</span>
+        <div>
+          <div class="en-only" style="font-weight:600;font-size:var(--text-lg)">Extreme or unexplained tiredness</div>
+          <div class="ta-only ta" style="font-weight:600;font-size:var(--text-base);font-family:var(--font-ta)">கடுமையான அல்லது விளக்கமில்லா சோர்வு</div>
+        </div>
+        <svg class="symptom-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="symptom-card-body">
+        <div class="bilingual-pair">
+          <div class="bilingual-en">Fatigue that is severe, unexplained, persistent, and not improved by rest — especially when accompanied by other symptoms such as weight loss, night sweats, or shortness of breath — should be discussed with a GP.</div>
+          <div class="bilingual-ta">கடுமையான, விளக்கமில்லா, தொடர்ச்சியான, ஓய்வால் குணமடையாத சோர்வு — குறிப்பாக எடை இழப்பு, இரவு வியர்வை அல்லது மூச்சுத்திணறலுடன் — GP யிடம் பேச வேண்டும்.</div>
+        </div>
+        <div class="action-rule">
+          <strong class="en-only">🩺 See your GP</strong>
+          <span class="en-only"> if tiredness is severe, unexplained, and accompanied by other symptoms.</span>
+          <strong class="ta-only ta" style="font-family:var(--font-ta)">🩺 கடுமையான, விளக்கமில்லா சோர்வு இருந்தால் GP யை சந்தியுங்கள்.</strong>
+        </div>
+      </div>
+    </details>
+
+    <!-- SEEING YOUR GP -->
+    <section style="margin-top:var(--sp-12)" aria-labelledby="gp-heading">
+      <h2 id="gp-heading" class="section-title en-only">How to talk to your GP about a concern</h2>
+      <h2 class="section-title ta-only ta">கவலையை GP யிடம் எப்படி பேசுவது</h2>
+
+      <div class="bilingual-pair" style="margin-bottom:var(--sp-6)">
+        <div class="bilingual-en">Many people feel embarrassed, worried about wasting the doctor's time, or uncertain what to say. These feelings are very common — but every concern is worth raising. Your GP wants to hear from you.</div>
+        <div class="bilingual-ta">பலர் நாணமாக உணர்கிறார்கள் அல்லது மருத்துவரின் நேரத்தை வீணாக்குவோம் என்று கவலைப்படுகிறார்கள். இந்த உணர்வுகள் மிகவும் பொதுவானவை — ஆனால் ஒவ்வொரு கவலையும் முன்வைக்க தகுதியானது.</div>
+      </div>
+
+      <div style="display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));margin-bottom:var(--sp-8)">
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base);margin-bottom:var(--sp-2)">📝 Write it down first</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-base);margin-bottom:var(--sp-2);font-family:var(--font-ta)">📝 முதலில் எழுதுங்கள்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">Note what the symptom is, when it started, how often it occurs, and whether it is getting worse. Take the note with you.</p>
+            <p class="bilingual-ta text-sm">அறிகுறி என்ன, எப்போது தொடங்கியது, எவ்வளவு அடிக்கடி வருகிறது என்று எழுதி கொண்டு செல்லுங்கள்.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base);margin-bottom:var(--sp-2)">🗣️ Say exactly what worries you</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-base);margin-bottom:var(--sp-2);font-family:var(--font-ta)">🗣️ கவலையை தெளிவாக சொல்லுங்கள்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">"I have noticed [symptom] for [time]. I am worried about it." You do not have to guess what it might be — your GP will help work that out.</p>
+            <p class="bilingual-ta text-sm">"நான் [அறிகுறி] [காலம்] முதல் கவலைப்படுகிறேன்." நீங்கள் என்னவாக இருக்கும் என்று யூகிக்க வேண்டியதில்லை.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base);margin-bottom:var(--sp-2)">🌐 Ask for an interpreter</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-base);margin-bottom:var(--sp-2);font-family:var(--font-ta)">🌐 மொழிபெயர்ப்பாளரை கேளுங்கள்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">You have the right to a professional interpreter. Ask when booking: "I would like a Tamil interpreter, please." Family members should not interpret sensitive medical discussions.</p>
+            <p class="bilingual-ta text-sm">நீங்கள் தொழில்முறை மொழிபெயர்ப்பாளரை கோரலாம். முன்பதிவு செய்யும்போது கேளுங்கள்: "தமிழ் மொழிபெயர்ப்பாளர் வேண்டும்."</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="en-only" style="font-size:var(--text-base);margin-bottom:var(--sp-2)">🔄 If symptoms persist</h3>
+          <h3 class="ta-only ta" style="font-size:var(--text-base);margin-bottom:var(--sp-2);font-family:var(--font-ta)">🔄 அறிகுறிகள் தொடர்ந்தால்</h3>
+          <div class="bilingual-pair">
+            <p class="bilingual-en text-sm">If a symptom continues, worsens, or new symptoms appear after a GP visit, go back. It is always right to follow up.</p>
+            <p class="bilingual-ta text-sm">அறிகுறி தொடர்ந்தால் அல்லது மோசமடைந்தால், திரும்பவும் GP யிடம் செல்லுங்கள்.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-notice">⚠️ Tamil symptom guidance awaiting bilingual clinical review — தமிழ் அறிகுறி வழிகாட்டுதல் மருத்துவ மதிப்பாய்வு நிலுவையில்</div>
+      <div class="source-list" style="margin-top:var(--sp-4)">
+        <p class="source-item">📄 NHS: Symptoms of cancer | Cancer Research UK: Possible symptoms of cancer | Macmillan: Symptoms and diagnosis | (England only — symptom guidance; action rules are clinician-reviewed templates awaiting final approval)</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom"><div>Cancer Awareness Prototype · v0.1</div></div>
+    <div class="footer-disclaimer">This information is for education only. It does not diagnose cancer or replace professional medical advice. If you have concerns about symptoms, speak with your GP.</div>
+  </div>
+</footer>
+<script src="../js/app.js"></script>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-bottom-nav" aria-label="Quick navigation">
+  <div class="mobile-bottom-nav-inner">
+    <a href="../index.html" class="mobile-nav-item" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="body-map.html" class="mobile-nav-item" aria-label="Body map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M12 9v6m-4 3h8"/></svg>
+      <span>Body</span>
+    </a>
+    <a href="symptoms.html" class="mobile-nav-item active" aria-label="Symptoms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg>
+      <span>Symptoms</span>
+    </a>
+    <a href="ask.html" class="mobile-nav-item" aria-label="Ask">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Ask</span>
+    </a>
+  </div>
+</nav>
+</body>
+</html>
