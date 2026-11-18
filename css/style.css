@@ -1135,3 +1135,110 @@ details .details-body { padding: var(--sp-4) 0; }
   /* Worry banner button full-width */
   .worry-banner .btn { width: 100%; text-align: center; }
 }
+
+/* ================================================================
+   ACTION RULES (symptom pages) — moved here for proper dark mode
+   ================================================================ */
+.action-rule {
+  background: #FFF3E0;
+  border-left: 4px solid var(--clr-accent);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--sp-4) var(--sp-5);
+  margin: var(--sp-4) 0;
+}
+.action-rule-urgent {
+  background: #FFEBEE;
+  border-left-color: #D32F2F;
+}
+/* Betel/warning callout in risk page */
+.betel-warning {
+  background: #FFFDE7;
+  border: 2px solid #F9A825;
+  border-radius: var(--radius-md);
+  padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-6) 0;
+}
+
+/* ================================================================
+   DARK MODE OVERRIDES for hardcoded light components
+   ================================================================ */
+@media (prefers-color-scheme: dark) {
+  /* Info boxes */
+  .info-box-info    { background: rgba(25,118,210,0.18);  color: var(--clr-text-primary); }
+  .info-box-warn    { background: rgba(224,123,57,0.18);  color: var(--clr-text-primary); }
+  .info-box-urgent  { background: rgba(192,57,43,0.18);   color: var(--clr-text-primary); }
+  .info-box-success { background: rgba(46,125,50,0.18);   color: var(--clr-text-primary); }
+
+  /* Quiz states */
+  .quiz-option.correct { background: rgba(46,125,50,0.22);  color: var(--clr-text-primary); }
+  .quiz-option.wrong   { background: rgba(192,57,43,0.22);  color: var(--clr-text-primary); }
+  .quiz-option.selected { background: rgba(13,107,110,0.2); color: var(--clr-text-primary); }
+
+  /* Myth cards */
+  .myth-top    { background: var(--clr-surface-raised); }
+  .myth-bottom { background: var(--clr-surface); }
+
+  /* Action rules */
+  .action-rule         { background: rgba(224,123,57,0.14); color: var(--clr-text-primary); }
+  .action-rule-urgent  { background: rgba(211,47,47,0.18);  color: var(--clr-text-primary); }
+
+  /* Betel warning */
+  .betel-warning { background: rgba(249,168,37,0.12); border-color: rgba(249,168,37,0.4); }
+
+  /* Review notice */
+  .review-notice { background: rgba(255,215,0,0.1); border-color: rgba(255,213,79,0.35); color: var(--clr-text-secondary); }
+}
+
+/* ================================================================
+   CONTRAST & FONT SIZE IMPROVEMENTS (light + dark)
+   ================================================================ */
+/* Raise review-notice contrast in light mode */
+.review-notice { color: #4E342E; }
+
+/* Ensure myth-bottom adapts to dark mode */
+.myth-bottom { background: var(--clr-surface); }
+
+/* Font size floor: nothing below 13px readable on phones */
+@media (max-width: 768px) {
+  .text-xs, [class*="text-xs"] { font-size: max(var(--text-xs), 0.8125rem) !important; }
+  .info-box { font-size: max(var(--text-sm), 0.875rem); }
+  .quiz-option { font-size: max(var(--text-base), 1rem); padding: var(--sp-4) var(--sp-4); }
+  .review-notice { font-size: max(var(--text-xs), 0.8125rem); }
+  /* Myth label text */
+  .myth-label { font-size: max(var(--text-xs), 0.8125rem); }
+  /* Action rule */
+  .action-rule { font-size: max(var(--text-sm), 0.875rem); }
+}
+
+/* ================================================================
+   RISK PAGE ICON BACKGROUNDS — dark mode override
+   ================================================================ */
+@media (prefers-color-scheme: dark) {
+  .risk-icon { background: var(--clr-surface-raised) !important; }
+}
+
+/* ================================================================
+   BODY MAP LEGEND CHIPS — dark mode override
+   ================================================================ */
+/* In dark mode override all inline-styled legend chips in the body map */
+@media (prefers-color-scheme: dark) {
+  .body-svg-legend span {
+    background: var(--clr-surface-raised) !important;
+    color: var(--clr-text-primary) !important;
+    border-color: var(--clr-border) !important;
+  }
+  /* Glossary cards rendered by JS */
+  .glossary-card-item {
+    background: var(--clr-surface) !important;
+    border-color: var(--clr-border) !important;
+    color: var(--clr-text-primary) !important;
+  }
+  /* Glossary alpha filter buttons */
+  .glossary-filter-btn {
+    background: var(--clr-surface-raised) !important;
+    border-color: var(--clr-border) !important;
+    color: var(--clr-text-primary) !important;
+  }
+}
+/* Ensure legend chip font size is readable on all screens */
+.body-svg-legend span { font-size: max(0.7rem, 0.8125rem) !important; }
